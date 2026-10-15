@@ -16,7 +16,9 @@
           <div class="window-scene" role="img" aria-label="평범한 도시가 보이는 수사관 사무실 창가. 세찬 여우비가 쏟아지는 창문 앞에 라디오와 화분, 머그잔, 서류철이 놓여 있습니다.">
             <svg class="window-art" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
-                <linearGradient id="ceramic" x2="1" y2=".15"><stop stop-color="#b8c2c0"/><stop offset=".3" stop-color="#899d9e"/><stop offset="1" stop-color="#455f69"/></linearGradient>
+                <linearGradient id="ceramic" x2="1" y2=".15"><stop stop-color="#e9b8ac"/><stop offset=".35" stop-color="#d49391"/><stop offset="1" stop-color="#a1647a"/></linearGradient>
+                <radialGradient id="latte-crema"><stop stop-color="#e7c394"/><stop offset=".8" stop-color="#c99c69"/><stop offset="1" stop-color="#986c47"/></radialGradient>
+                <linearGradient id="gold-flower" x2="1" y2="1"><stop stop-color="#fff0a2"/><stop offset=".45" stop-color="#e5ba50"/><stop offset="1" stop-color="#a57026"/></linearGradient>
                 <linearGradient id="plant-pot" x2="1" y2="0"><stop stop-color="#a19a8a"/><stop offset=".45" stop-color="#7a8179"/><stop offset="1" stop-color="#4d5d60"/></linearGradient>
                 <linearGradient id="metal-shade" x2="1" y2="1"><stop stop-color="#a1b7b9"/><stop offset=".35" stop-color="#6f8e96"/><stop offset="1" stop-color="#344d5c"/></linearGradient>
                 <linearGradient id="glass-vase" x2="1" y2="0"><stop stop-color="#afdfdf" stop-opacity=".48"/><stop offset=".45" stop-color="#98c6c9" stop-opacity=".12"/><stop offset="1" stop-color="#527f8f" stop-opacity=".6"/></linearGradient>
@@ -79,14 +81,28 @@
                 <ellipse cx="29" cy="85" rx="26" ry="7" fill="#9a9f91"/><ellipse cx="29" cy="86" rx="21" ry="4" fill="#3b4947"/>
                 <path d="M12 94 16 119" stroke="#d0c8ad" stroke-opacity=".35" stroke-width="2"/>
               </g>
-              <g transform="translate(652 496)">
-                <ellipse cx="24" cy="65" rx="38" ry="6" fill="#0e1c29" opacity=".4"/>
-                <ellipse cx="24" cy="62" rx="34" ry="6" fill="#667d86"/><ellipse cx="24" cy="61" rx="29" ry="3" fill="#3b5662"/>
-                <path d="M44 13c31-9 31 32-1 31" fill="none" stroke="#728d94" stroke-width="8"/><path d="M45 14c22-5 22 24 0 24" fill="none" stroke="#a5b5b5" stroke-width="2"/>
-                <path d="M2 8h44v41q-22 17-44 0Z" fill="url(#ceramic)"/>
-                <ellipse cx="24" cy="8" rx="22" ry="6" fill="#c5ccbf"/><ellipse cx="24" cy="8" rx="18" ry="4" fill="#333d37"/>
-                <path d="M9 17v28" stroke="#dde4d7" opacity=".3" stroke-width="2"/>
-                <path d="M15-7q-9-12 1-26m14 24q-8-10 0-22" fill="none" stroke="#c0d0ce" opacity=".25" stroke-width="2"/>
+              <g id="latte-mug" transform="translate(632 487)">
+                <ellipse cx="32" cy="77" rx="43" ry="5" fill="#101923" opacity=".32"/>
+                <ellipse cx="30" cy="73" rx="39" ry="7" fill="#7f737e"/>
+                <ellipse cx="30" cy="71" rx="39" ry="6" fill="#d9b9b2"/>
+                <ellipse cx="30" cy="71" rx="31" ry="4" fill="#bc9398"/>
+                <ellipse cx="30" cy="70" rx="24" ry="3" fill="#6d4a61" opacity=".48"/>
+                <path d="M54 22C83 12 84 54 55 55" fill="none" stroke="#a1647a" stroke-width="10"/>
+                <path d="M56 23C76 18 77 48 57 49" fill="none" stroke="#edbfb4" stroke-width="3"/>
+                <path d="M3 13H57V50C57 63 44 71 30 71S3 63 3 50Z" fill="url(#ceramic)"/>
+                <path d="M7 25V48Q7 57 13 61" fill="none" stroke="#ffe2ca" opacity=".4" stroke-width="2.5" stroke-linecap="round"/>
+                <ellipse cx="30" cy="13" rx="27" ry="11" fill="#f0d2bb"/>
+                <ellipse cx="30" cy="13" rx="23" ry="8" fill="url(#latte-crema)"/>
+                <ellipse cx="30" cy="13" rx="21" ry="6.6" fill="none" stroke="#eac99e" stroke-width=".8" opacity=".6"/>
+                <path d="M28 18C24 15 16 13 18 10 20 7 26 8 28 11 31 7 38 8 38 11 39 14 32 16 28 18Z" fill="#fff3db"/>
+                <path d="M28 17 25 10M28 17 32 10" fill="none" stroke="#d9b58a" stroke-width=".65" opacity=".8"/>
+                <path d="m28 18-1 2" stroke="#fff3db" stroke-width="1" stroke-linecap="round"/>
+                <g transform="translate(44 11)" fill="url(#gold-flower)" stroke="#aa7d32" stroke-width=".35">
+                  <ellipse cy="-3" rx="1.7" ry="2.8"/><ellipse cx="2.8" cy="-1" rx="2.8" ry="1.6" transform="rotate(-25 2.8 -1)"/>
+                  <ellipse cx="2" cy="2" rx="2.5" ry="1.6" transform="rotate(35 2 2)"/><ellipse cx="-1.5" cy="2.3" rx="2.4" ry="1.6" transform="rotate(-25 -1.5 2.3)"/>
+                  <ellipse cx="-3" cy="-1" rx="2.5" ry="1.6" transform="rotate(25 -3 -1)"/><circle r="1.6" fill="#f9de7d"/>
+                </g>
+                <path d="M18-3Q10-15 18-27M36-3Q29-14 36-23" fill="none" stroke="#d0d9d3" opacity=".2" stroke-width="1.5" stroke-linecap="round"/>
               </g>
               <g transform="translate(474 532)">
                 <ellipse cx="54" cy="29" rx="63" ry="6" fill="#101c27" opacity=".4"/>
