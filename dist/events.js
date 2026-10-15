@@ -6,6 +6,7 @@ export const collectibles = [
 export const events = [
   {
     id: 'broadcast-01', weight: 10, // 기본 조우 가중치. 반복 등장 가능.
+    // image: { src: 'images/event-01.webp', alt: '방송 장면 설명', fit: 'contain', caption: '이미지 설명' },
     frequency: '89.1', title: '일반 방송', text: '[방송 내용 입력]',
     choices: [
       { id: 'accept', text: '[수집 및 연계를 시작하는 행동]', result: '[선택 결과 입력]',
