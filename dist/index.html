@@ -13,11 +13,15 @@
       <div class="layout">
         <section class="receiver" aria-label="여우비 내리는 창가의 라디오">
           <div class="scene-top"><span><i class="weather-dot"></i> 사무실 창가 · 여우비</span><time id="local-clock">지금의 하늘</time></div>
-          <div class="window-scene" role="img" aria-label="평범한 도시가 보이는 수사관 사무실 창가. 여우비 내리는 창문 앞에 라디오와 화분, 머그잔, 서류철이 놓여 있습니다.">
+          <div class="window-scene" role="img" aria-label="평범한 도시가 보이는 수사관 사무실 창가. 세찬 여우비가 쏟아지는 창문 앞에 라디오와 화분, 머그잔, 서류철이 놓여 있습니다.">
             <svg class="window-art" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <linearGradient id="sky-gradient" x2="0" y2="1"><stop class="sky-upper"/><stop offset="1" class="sky-lower"/></linearGradient>
                 <linearGradient id="glass-glow" x2="1" y2="1"><stop stop-color="#adc8da" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                <linearGradient id="river-gradient" x2="0" y2="1"><stop stop-color="#677f8b" stop-opacity=".5"/><stop offset="1" stop-color="#283e50"/></linearGradient>
+                <radialGradient id="horizon-glow"><stop stop-color="#d9b58c" stop-opacity=".25"/><stop offset="1" stop-color="#b2c8d7" stop-opacity="0"/></radialGradient>
+                <pattern id="rain-far" width="83" height="132" patternUnits="userSpaceOnUse"><path d="m14-12-13 47m39 2-18 61m47-74-14 51m23 28-11 40" stroke="#b4d0df" stroke-width=".8" opacity=".5"/></pattern>
+                <pattern id="rain-near" width="113" height="165" patternUnits="userSpaceOnUse"><path d="m24-35-24 90m68-5-20 76m54-137-18 66m37 58-19 70" stroke="#d2e4ec" stroke-width="1.4" opacity=".65"/></pattern>
                 <pattern id="far-windows" width="24" height="32" patternUnits="userSpaceOnUse"><rect x="8" y="8" width="7" height="12" fill="currentColor" opacity=".5"/></pattern>
                 <pattern id="near-windows" width="34" height="37" patternUnits="userSpaceOnUse"><rect x="9" y="10" width="12" height="18" fill="#b5beb8" opacity=".45"/></pattern>
                 <clipPath id="view-clip"><rect x="48" y="25" width="704" height="513" rx="8"/></clipPath>
@@ -28,36 +32,44 @@
                 <g class="day-orb"><circle cx="611" cy="130" r="68" fill="#ded6b2" opacity=".2"/><circle cx="611" cy="130" r="42" fill="#ded6b2" opacity=".8"/></g>
                 <g class="night-orb" fill="#d0d8dd"><path d="M635 75a40 40 0 1 0 29 66 37 37 0 0 1-29-66Z"/><circle cx="170" cy="85" r="2"/><circle cx="290" cy="125" r="1.5"/><circle cx="505" cy="60" r="2"/><circle cx="692" cy="230" r="2"/><path d="m460 150 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/></g>
                 <g class="clouds" fill="#c2cbd4" opacity=".2"><path d="M74 149c21-27 45-25 60-6 24-36 65-30 80 3 24-13 51 0 55 18H70Z"/><path d="M385 212c19-20 41-17 50-3 23-32 59-28 77-1 32-8 52 3 57 18H371Z"/><path d="M543 54c17-22 37-23 52-6 26-33 61-21 69-2 25-7 46 4 49 18H530Z"/></g>
+                <ellipse cx="580" cy="290" rx="320" ry="230" fill="url(#horizon-glow)"/>
+                <path d="M35 349 120 268 176 300 279 211 351 287 423 246 487 287 569 218 636 272 711 233 774 278v240H35Z" fill="var(--far)" opacity=".38"/>
+                <path d="M34 367q118-72 235-14t250-13 255 2v179H34Z" fill="var(--far)" opacity=".28"/>
                 <g class="far-city"><path d="M35 400V292h57v-30h42v59h45v-98h65v44h35v-60h44v40h38v78h44v-54h61v-80h36v38h49v-34h54v84h39v-58h56v83h60v-53h66v250H35Z"/><path d="M35 400V292h57v-30h42v59h45v-98h65v44h35v-60h44v40h38v78h44v-54h61v-80h36v38h49v-34h54v84h39v-58h56v83h60v-53h66v250H35Z" fill="url(#far-windows)"/></g>
                 <g class="near-city">
                   <path d="M23 540V335h150v205Zm208 0V300h140v240Zm200 0V350h160v190Zm212 0V322h135v218Z"/>
                   <path d="M23 540V335h150v205Zm208 0V300h140v240Zm200 0V350h160v190Zm212 0V322h135v218Z" fill="url(#near-windows)"/>
                   <path d="M18 335h160m48-35h150m50 50h170m42-28h145" fill="none" stroke="#677685" stroke-width="5"/>
                 </g>
-                <path d="M40 510h720v28H40Z" fill="#404b56"/>
-                <path d="M40 521h720" stroke="#78838c" stroke-width="2" stroke-dasharray="23 18"/>
-                <g fill="#516c65" stroke="#3d5451" stroke-width="2">
-                  <path d="M125 529v-40m483 40v-40" fill="none"/>
-                  <ellipse cx="125" cy="476" rx="23" ry="29"/>
-                  <ellipse cx="608" cy="476" rx="23" ry="29"/>
-                </g>
+                <path d="M35 463q160-19 330 10t410-5v72H35Z" fill="url(#river-gradient)"/>
+                <g stroke="#9fb2b8" fill="none" opacity=".28"><path d="M80 488h83m70 11h112m55-14h74m75 16h86m55-14h82"/><path d="M106 514h81m117-1h72m139 6h67m68-4h78" stroke-width="2"/></g>
+                <g stroke="#c4b499" opacity=".2" stroke-width="3"><path d="M153 478v17m154-11v22m237-27v24m121-22v27"/></g>
+                <path d="M40 528h720v10H40Z" fill="#2e414d"/>
+                <path d="M40 526h720" stroke="#82949b" stroke-width="2"/>
+                <path d="M110 528v-15m110 15v-15m110 15v-15m110 15v-15m110 15v-15m110 15v-15m-610 0h720" stroke="#536a77" stroke-width="2"/>
+                <g stroke="#4f6472" fill="none" stroke-width="2"><path d="M98 335v-25h38m-18 25v-39m158 4v-24h53m-23 24v-42m207 92v-26h37m-18 26v-39m185 11v-28h24"/><path d="M298 246q14-11 26 0m0 0q13-12 26-1" opacity=".7"/></g>
                 <rect x="48" y="25" width="704" height="513" fill="url(#glass-glow)"/>
                 <path d="m95 30 260 510h70L165 30Z" fill="#fff" opacity=".07"/>
+              </g>
+              <g clip-path="url(#view-clip)" pointer-events="none">
+                <rect class="rain-far-sheet" x="-100" y="-160" width="1050" height="900" fill="url(#rain-far)"/>
+                <rect class="rain-near-sheet" x="-100" y="-180" width="1050" height="950" fill="url(#rain-near)"/>
+                <g class="glass-rivulets" fill="none" stroke="#a4c2d0" opacity=".23"><path d="M134 57q-8 49-3 76t-6 88m387-172q-8 43-3 81t-8 102m179-81q-8 35-5 63t-6 68"/><path d="m273 285-2 37m-84 75-4 51m419-112-3 41m-36-283-3 33" stroke-width="2"/></g>
               </g>
               <rect x="42" y="20" width="716" height="526" rx="12" fill="none" stroke="#151d28" stroke-width="15"/>
               <rect x="53" y="30" width="694" height="506" rx="6" fill="none" stroke="#374452" stroke-width="9"/>
               <path d="M400 25v513M50 247h700" stroke="#151d28" stroke-width="14"/><path d="M403 28v506M55 244h688" stroke="#465361" stroke-width="7"/>
               <path d="M0 541h800v79H0Z" fill="#2c3742"/><path d="M0 542h800v13H0Z" fill="#414e5a"/><path d="M0 555h800v7H0Z" fill="#19232e" opacity=".6"/>
               <path d="M19 589h750M77 614h260M520 575h240" stroke="#4b5661" stroke-width="2" opacity=".4"/>
-              <g transform="translate(72 431)"><path d="M21 68V4m0 39C-6 38-7 15 0 10c23 1 26 16 21 33m0-10C48 30 55 6 44 0 27 4 19 16 21 33m0 25C46 55 57 34 44 29 26 34 23 44 21 58" fill="#6b8279" stroke="#425b55" stroke-width="3"/><path d="M-3 66h48l-6 48H4Z" fill="#46535c" stroke="#27323e" stroke-width="3"/><path d="M-6 66h54v12H-6Z" fill="#58666e" stroke="#27323e" stroke-width="3"/></g>
-              <g transform="translate(645 480)" stroke="#465461" stroke-width="3"><path d="M42 15c37-12 37 36 0 28" fill="none"/><path d="M0 9h45v40q-22 19-45 0Z" fill="#889297"/><ellipse cx="22" cy="9" rx="23" ry="6" fill="#36342e"/><path d="M12-5q-11-11 0-22m16 22q-9-10 0-22" fill="none" stroke="#bcc5c4" opacity=".7"/></g>
-              <g transform="translate(451 531)" stroke="#26313e" stroke-width="2">
+              <g transform="translate(72 446)"><path d="M21 68V4m0 39C-6 38-7 15 0 10c23 1 26 16 21 33m0-10C48 30 55 6 44 0 27 4 19 16 21 33m0 25C46 55 57 34 44 29 26 34 23 44 21 58" fill="#6b8279" stroke="#425b55" stroke-width="3"/><path d="M-3 66h48l-6 48H4Z" fill="#46535c" stroke="#27323e" stroke-width="3"/><path d="M-6 66h54v12H-6Z" fill="#58666e" stroke="#27323e" stroke-width="3"/></g>
+              <g transform="translate(645 500)" stroke="#465461" stroke-width="3"><path d="M42 15c37-12 37 36 0 28" fill="none"/><path d="M0 9h45v40q-22 19-45 0Z" fill="#889297"/><ellipse cx="22" cy="9" rx="23" ry="6" fill="#36342e"/><path d="M12-5q-11-11 0-22m16 22q-9-10 0-22" fill="none" stroke="#bcc5c4" opacity=".7"/></g>
+              <g transform="translate(474 532)" stroke="#26313e" stroke-width="2">
                 <path d="M0 7h92l11 8H0Z" fill="#4f5b6b"/><path d="M0 15h103v13H0Z" fill="#303d4d"/>
                 <path d="M4 18h92m-92 4h92" stroke="#87919c"/>
                 <path d="M8 2h78l9 8H8Z" fill="#67706b"/><path d="M8 10h87v5H8Z" fill="#a6aaa1"/>
                 <path d="m16-5 59-11 2 5-59 11Z" fill="#849295"/><path d="m75-16 7 1-5 4Z" fill="#adb6ad"/>
               </g>
-              <g data-room-decoration="desk-lamp" hidden>
+              <g data-room-decoration="desk-lamp" hidden transform="translate(0 23)">
                 <ellipse cx="588" cy="534" rx="83" ry="16" fill="var(--room-accent, #94b8b3)" opacity=".12"/>
                 <path d="M593 435 537 535h111Z" fill="#dfd7b0" opacity=".06"/>
                 <path d="M604 526v-57l-31-42" fill="none" stroke="#8c9a9d" stroke-width="7" stroke-linejoin="round"/>
@@ -65,26 +77,41 @@
                 <path d="m551 428 39 22" stroke="#e2d5ad" stroke-width="4"/>
                 <path d="M580 530q25-11 48 0v7h-48Z" fill="#5c6d77"/>
               </g>
-              <g data-room-decoration="books" hidden transform="translate(445 487)" stroke="#25313d" stroke-width="2">
+              <g data-room-decoration="books" hidden transform="translate(482 496)" stroke="#25313d" stroke-width="2">
                 <path d="M0 22h83v15H0Z" fill="#7b858b"/><path d="M5 26h73v7H5Z" fill="#b7b9ad"/>
                 <path d="M5 8h73v14H5Z" fill="#516675"/><path d="M10 12h63v6H10Z" fill="#9fa8a7"/>
                 <path d="M0-5h79V8H0Z" fill="#798371"/>
               </g>
-              <g data-room-decoration="photo-frame" hidden transform="translate(686 423)">
+              <g data-room-decoration="photo-frame" hidden transform="translate(725 471)">
                 <path d="M-5 89 4 40 49 89Z" fill="#25303a"/>
                 <rect width="58" height="77" rx="2" fill="#6a7884"/><rect x="5" y="5" width="48" height="67" fill="#a9b6bc"/>
                 <path d="M5 62 21 40 35 54 46 37 53 52v20H5Z" fill="#6d8686"/><circle cx="37" cy="23" r="8" fill="#d6cfae"/>
               </g>
-              <g data-room-decoration="glass-vase" hidden transform="translate(730 469)">
+              <g data-room-decoration="glass-vase" hidden transform="translate(430 492)">
                 <path d="M0 18h17l6 44q-16 11-29 0Z" fill="#91b2b4" fill-opacity=".25" stroke="#789497" stroke-width="2"/>
                 <path d="M8 51V-12m0 21q-20-5-18-19Q9-9 8 9m0-5Q28-1 25-18 9-16 8 4" fill="#6b8279" stroke="#557169" stroke-width="2"/>
               </g>
             </svg>
-            <div class="rain" aria-hidden="true"></div>
+
             <div class="radio-wrap" aria-hidden="true">
+              <svg class="radio-illustration" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="radio-paint" x2=".6" y2="1"><stop stop-color="#c77d64"/><stop offset="1" stop-color="#8c4c45"/></linearGradient><pattern id="speaker-mesh" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#273e43"/><circle cx="1" cy="1" r=".7" fill="#7d8b80"/></pattern></defs>
+                <path d="m254 72 22-67" stroke="#23333e" stroke-width="5" stroke-linecap="round"/><path d="m254 72 22-67" stroke="#a9b1ac" stroke-width="2" stroke-linecap="round"/>
+                <path d="M95 66V46q0-11 11-11h84q11 0 11 11v20" fill="none" stroke="#28373d" stroke-width="8"/>
+                <path d="M19 176v14h29v-14m203 0v14h29v-14" fill="#25323c"/>
+                <rect x="5" y="63" width="290" height="118" rx="11" fill="url(#radio-paint)" stroke="#513d3f" stroke-width="3"/>
+                <path d="M18 66h264" stroke="#edb090" stroke-width="3" opacity=".5"/>
+                <rect x="20" y="78" width="126" height="86" rx="6" fill="url(#speaker-mesh)" stroke="#745547" stroke-width="4"/>
+                <path d="M27 81h110" stroke="#b28f72" opacity=".4"/>
+                <text x="164" y="85" fill="#efdbbf" font-family="sans-serif" font-size="8" letter-spacing="1.4">LAST RADIO</text>
+                <rect x="162" y="93" width="113" height="31" rx="3" fill="#b3c4a9" stroke="#5f6b59" stroke-width="2"/>
+                <path d="M169 117h99m-92-3v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5" stroke="#657f70" stroke-width=".8"/>
+                <text id="frequency" x="219" y="112" text-anchor="middle" fill="#314f4a" font-family="monospace" font-size="17">89.1</text>
+                <g fill="#d5c4a0" stroke="#735a4d" stroke-width="2"><circle cx="180" cy="146" r="12"/><circle cx="221" cy="146" r="12"/></g>
+                <path d="M180 137v8m41-8v8" stroke="#6c7063" stroke-width="2" stroke-linecap="round"/>
+                <rect x="252" y="136" width="20" height="19" rx="3" fill="#4c6b69" stroke="#304b50" stroke-width="2"/>
+              </svg>
               <svg class="sound-waves" viewBox="0 0 48 64" aria-hidden="true"><path d="M10 16 22 5"/><path d="M14 31h19"/><path d="m10 46 12 11"/></svg>
-              <div class="radio-antenna"></div><div class="radio-handle"></div>
-              <div class="radio-body"><div class="radio-speaker"></div><div class="radio-right"><span class="radio-name">종말 RADIO</span><div class="radio-dial"><span id="frequency">89.1</span><small>FM</small></div><div class="radio-knobs"><i></i><i></i></div></div></div>
             </div>
             <span class="scene-caption" id="sky-caption">창밖에는 여우비가 내립니다.</span>
           </div>
