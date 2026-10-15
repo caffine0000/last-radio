@@ -1,3 +1,4 @@
+import { updateSky } from './sky.js';
 import { settings, events, collectibles } from './events.js';
 import { RadioEngine } from './engine.js';
 
@@ -32,17 +33,17 @@ function render() {
   const s = engine.state;
   const active = s.phase === 'choice';
   document.body.classList.toggle('receiving', active);
-  $('signal').textContent = ({idle:'전원 대기',waiting:'신호 탐색 중',paused:'수신 일시정지',choice:'방송 수신 중',finished:'수신 종료'})[s.phase];
+  $('signal').textContent = ({idle:'방송을 기다리며',waiting:'다음 목소리를 기다려요',paused:'잠시 쉬어 가는 중',choice:'누군가 말을 걸어왔어요',finished:'오늘의 방송을 마치며'})[s.phase];
   $('phase-badge').textContent = ({idle:'STANDBY',waiting:'TUNING',paused:'PAUSED',choice:'ON AIR',finished:'END OF SIGNAL'})[s.phase];
   $('frequency').textContent = active ? engine.event.frequency || '––.–' : '––.–';
   $('channel').textContent = `${String(s.count).padStart(3, '0')} RECEIVED`;
-  $('power').textContent = ({idle:'수신 시작 ↗',waiting:'일시정지 Ⅱ',paused:'수신 재개 ↗',choice:'방송 수신 중',finished:'수신 완료'})[s.phase];
+  $('power').textContent = ({idle:'라디오 켜기 ↗',waiting:'잠깐 쉬기 Ⅱ',paused:'다시 듣기 ↗',choice:'방송이 왔어요 ♪',finished:'방송 종료'})[s.phase];
   $('power').disabled = active || s.phase === 'finished';
   $('timer-note').textContent = ({idle:'전원을 켜면 첫 번째 방송을 기다립니다.',waiting:'다음 신호를 기다리고 있습니다.',paused:'남은 시간이 보존됩니다.',choice:'행동을 선택하면 다음 수신이 시작됩니다.',finished:'현재 등장 가능한 방송이 없습니다.'})[s.phase];
   const message = $('message'); message.replaceChildren();
   message.append(node('div', active ? '⌁' : '· · ·', 'message-icon'));
-  message.append(node('h2', active ? engine.event.title : ({idle:'주파수 너머, 누군가.',waiting:'다음 방송을 기다립니다.',paused:'잠시 멈춘 주파수.',finished:'마지막 신호가 끊어졌습니다.'})[s.phase]));
-  message.append(node('p', active ? engine.event.text : ({idle:'수신을 시작하면 잠시 후 방송이 도착합니다.\n목소리에 귀를 기울이고, 당신의 행동을 선택하세요.',waiting:'아직은 희미한 잡음뿐입니다.\n새로운 신호가 잡히면 이곳에 방송이 표시됩니다.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
+  message.append(node('h2', active ? engine.event.title : ({idle:'창가에 앉아, 잠시.',waiting:'비 오는 날의 막간.',paused:'잠깐 쉬어 가도 괜찮아.',finished:'오늘도 들어줘서 고마워.'})[s.phase]));
+  message.append(node('p', active ? engine.event.text : ({idle:'폐허가 된 신구획 단지의 작은 방송국.\n라디오를 켜면 누군가의 이야기가 찾아옵니다.',waiting:'창문에는 빗방울이, 방 안에는 작은 잡음이.\n다음 이야기가 들려오면 함께 귀 기울여요.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
   const choices = $('choices'); choices.replaceChildren();
   if (active) engine.event.choices.forEach((choice, index) => {
     const button = node('button', '', 'choice');
@@ -112,7 +113,10 @@ setInterval(() => {
   if (engine.tick()) { persist(); render(); }
   else updateClock();
 }, 200);
+updateSky();
+setInterval(() => updateSky(), 30000);
 document.addEventListener('visibilitychange', () => {
+  updateSky();
   if (engine.tick()) { persist(); render(); } else updateClock();
 });
 persist(); render();
