@@ -1,3 +1,4 @@
+import { eventImage } from './event-media.js';
 export function validateEvents(events, collectibles = []) {
   if (!Array.isArray(events) || !events.length) throw new Error('이벤트를 하나 이상 등록하세요.');
   const ids = new Set(events.map(e => e.id));
@@ -6,6 +7,7 @@ export function validateEvents(events, collectibles = []) {
   if (items.size !== collectibles.length || collectibles.some(i => !i.id || typeof i.name !== 'string' || typeof i.description !== 'string')) throw new Error('수집품 정의를 확인하세요.');
   if (ids.size !== events.length) throw new Error('이벤트 id가 중복되었습니다.');
   for (const e of events) {
+    eventImage(e.image, e.title);
     if (!e.id || typeof e.title !== 'string' || typeof e.text !== 'string' || !Number.isFinite(e.weight) || e.weight < 0 || !Array.isArray(e.choices) || !e.choices.length) throw new Error(`${e.id}: 이벤트 형식을 확인하세요.`);
     if (e.pity && (!Number.isInteger(e.pity.count) || e.pity.count < 0 || !['gameStart', 'trigger'].includes(e.pity.start))) throw new Error(`${e.id}: 천장 설정을 확인하세요.`);
     if ((e.requires?.events || []).some(id => !ids.has(id)) || (e.requires?.choices || []).some(id => !choices.has(id))) throw new Error(`${e.id}: 선행 조건 id를 확인하세요.`);
