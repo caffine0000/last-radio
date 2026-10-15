@@ -19,6 +19,10 @@
                 <linearGradient id="ceramic" x2="1" y2=".15"><stop stop-color="#e9b8ac"/><stop offset=".35" stop-color="#d49391"/><stop offset="1" stop-color="#a1647a"/></linearGradient>
                 <radialGradient id="latte-crema"><stop stop-color="#e7c394"/><stop offset=".8" stop-color="#c99c69"/><stop offset="1" stop-color="#986c47"/></radialGradient>
                 <linearGradient id="gold-flower" x2="1" y2="1"><stop stop-color="#fff0a2"/><stop offset=".45" stop-color="#e5ba50"/><stop offset="1" stop-color="#a57026"/></linearGradient>
+                <linearGradient id="latte-cup-matte" x1="0" y1=".1" x2="1" y2=".4"><stop stop-color="#bab38d"/><stop offset=".45" stop-color="#a7a582"/><stop offset="1" stop-color="#667d76"/></linearGradient>
+                <linearGradient id="latte-blue-handle" x2=".7" y2="1"><stop stop-color="#94a8b8"/><stop offset=".45" stop-color="#708a9f"/><stop offset="1" stop-color="#3d596e"/></linearGradient>
+                <radialGradient id="latte-surface" cx=".42" cy=".35"><stop stop-color="#c5ad86"/><stop offset=".8" stop-color="#a58c64"/><stop offset="1" stop-color="#776e53"/></radialGradient>
+                <linearGradient id="latte-petal" x2=".6" y2="1"><stop stop-color="#e0c581"/><stop offset=".5" stop-color="#c6a55b"/><stop offset="1" stop-color="#8d8652"/></linearGradient>
                 <linearGradient id="plant-pot" x2="1" y2="0"><stop stop-color="#a19a8a"/><stop offset=".45" stop-color="#7a8179"/><stop offset="1" stop-color="#4d5d60"/></linearGradient>
                 <linearGradient id="metal-shade" x2="1" y2="1"><stop stop-color="#a1b7b9"/><stop offset=".35" stop-color="#6f8e96"/><stop offset="1" stop-color="#344d5c"/></linearGradient>
                 <linearGradient id="glass-vase" x2="1" y2="0"><stop stop-color="#afdfdf" stop-opacity=".48"/><stop offset=".45" stop-color="#98c6c9" stop-opacity=".12"/><stop offset="1" stop-color="#527f8f" stop-opacity=".6"/></linearGradient>
@@ -71,7 +75,7 @@
               <rect x="53" y="30" width="694" height="506" rx="6" fill="none" stroke="#374452" stroke-width="9"/>
               <path d="M400 25v513M50 247h700" stroke="#151d28" stroke-width="14"/><path d="M403 28v506M55 244h688" stroke="#465361" stroke-width="7"/>
               <path d="M0 541h800v49H0Z" fill="url(#desk-plane)"/><path d="M0 590h800v30H0Z" fill="#263442"/><path d="M0 542h800v13H0Z" fill="#414e5a"/><path d="M0 555h800v7H0Z" fill="#19232e" opacity=".6"/>
-              <g class="indoor-sunlight" fill="url(#sunbeam-gradient)"><path d="M583 395 298 620h173L668 395Z"/></g>
+
               <path d="M19 589h750M77 614h260M520 575h240" stroke="#4b5661" stroke-width="2" opacity=".4"/>
               <g transform="translate(61 432)">
                 <ellipse cx="28" cy="129" rx="42" ry="7" fill="#111d2a" opacity=".4"/>
@@ -81,9 +85,43 @@
                 <ellipse cx="29" cy="85" rx="26" ry="7" fill="#9a9f91"/><ellipse cx="29" cy="86" rx="21" ry="4" fill="#3b4947"/>
                 <path d="M12 94 16 119" stroke="#d0c8ad" stroke-opacity=".35" stroke-width="2"/>
               </g>
-              <g id="latte-mug">
-                <ellipse cx="704" cy="565" rx="45" ry="5" fill="#111923" opacity=".4"/>
-                <image id="character-latte" x="615" y="389" width="175" height="176" href="images/character-latte.svg" preserveAspectRatio="xMidYMax meet"/>
+              <!-- 창가와 동일한 좌표계·광원으로 그린 라떼. -->
+              <g id="latte-mug" transform="translate(641 450)">
+                <ellipse cx="40" cy="112" rx="42" ry="5" fill="#101d29" opacity=".36"/>
+                <ellipse cx="40" cy="110" rx="28" ry="2.5" fill="#132430" opacity=".5"/>
+                <path d="M5 37C-27 23-31 76 5 78" fill="none" stroke="#3d596e" stroke-width="12"/>
+                <path d="M3 37C-20 31-21 67 3 70" fill="none" stroke="url(#latte-blue-handle)" stroke-width="7"/>
+                <path d="M-12 40q-8 12-2 23" fill="none" stroke="#b1c1c7" opacity=".22" stroke-width="1.3"/>
+                <path d="M2 22h76v52c0 21-12 36-38 36S2 95 2 74Z" fill="url(#latte-cup-matte)" stroke="#576c6b" stroke-width="1.1"/>
+                <path d="M9 42v30q0 17 9 23" fill="none" stroke="#d5d1ad" opacity=".3" stroke-width="2" stroke-linecap="round"/>
+                <path d="M19 105q21 7 43 0" fill="none" stroke="#556e6a" opacity=".35" stroke-width="1.2"/>
+                <ellipse cx="40" cy="22" rx="38" ry="14" fill="#899eaa"/>
+                <ellipse cx="40" cy="21" rx="35" ry="11.8" fill="#d5d2b5"/>
+                <ellipse cx="40" cy="22" rx="31.5" ry="9.8" fill="url(#latte-surface)"/>
+                <path d="M10 22c1-5 13-8 28-8" fill="none" stroke="#dcc7a0" opacity=".5" stroke-width=".9"/>
+                <!-- 커피 표면 원근에 맞춘 우유 무늬. -->
+                <g transform="translate(31 22) scale(1 .43)">
+                  <path d="M0 14C-7 6-22 0-17-9c5-8 13-4 17 2 5-9 18-8 19 0 0 9-13 13-19 21Z" fill="#e3d8b8"/>
+                  <g fill="none" stroke="#b8a17a" stroke-width="1" opacity=".7"><path d="M0 12C-8 1-19-2-14-8M0 12C8 0 18-2 15-7"/><path d="M0 12C-7 4-14 0-10-5M0 12C7 3 14-1 10-5"/><path d="M0 12C-4 5-9 1-6-2M0 12C4 5 9 0 6-2"/></g>
+                  <path d="M0 14 0 20" stroke="#e8ddbe" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+                <!-- 표면에 닿은 꽃잎, 접촉 그림자와 젖은 가장자리. -->
+                <g transform="translate(59 22) rotate(-12) scale(1 .58)">
+                  <ellipse cx=".5" cy="2.5" rx="10" ry="7" fill="#6f6d4e" opacity=".28"/>
+                  <g fill="url(#latte-petal)" stroke="#9d935e" stroke-width=".4">
+                    <path d="M0 0C-5-2-7-8-3-11c4-2 8 3 6 7L0 0Z"/>
+                    <path d="M1 0C3-7 10-9 12-4c2 4-3 8-9 6L1 0Z"/>
+                    <path d="M2 1c7-2 12 2 9 6-3 3-9 0-10-4Z"/>
+                    <path d="M0 2c6 3 5 9 0 10-5 0-6-6-3-9Z"/>
+                    <path d="M-1 1c-5 5-11 3-10-2 1-4 7-4 10-2Z"/>
+                  </g>
+                  <g fill="none" stroke="#e0c785" stroke-width=".65" opacity=".65"><path d="M0-1-2-8m4 8 6-4M2 3l5 2m-8-1 0 5m-3-8-5-1"/></g>
+                  <g fill="#ab9154"><circle cx="0" cy="1" r="2"/><circle cx="-1" cy="0" r=".7"/><circle cx="1" cy="-.5" r=".6"/></g>
+                  <path d="m-8 1 2 .7m11 5 2-1m-8 5 2-.5" stroke="#dbd0a8" stroke-width=".7" opacity=".7"/>
+                </g>
+                <path d="M19 63c12 6 30 7 42 0" fill="none" stroke="#9a946b" opacity=".55" stroke-width=".9"/>
+                <path d="m26 62 5 2m-2-4 0 5m8 1 4 .1m-2-2v4m9-3 5-.5m-2-2 0 4" stroke="#b7a478" opacity=".55" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M23 1Q14-9 22-20M48 2Q42-8 49-18" fill="none" stroke="#a9c0c2" opacity=".12" stroke-width="1.2" stroke-linecap="round"/>
               </g>
               <g transform="translate(474 532)">
                 <ellipse cx="54" cy="29" rx="63" ry="6" fill="#101c27" opacity=".4"/>
@@ -123,6 +161,7 @@
                 <path d="M9 64V-14m0 24q-23-5-21-21Q9-10 9 10m0-4Q29 1 26-18 11-16 9 6" fill="#779b86" stroke="#526f65" stroke-width="1.5"/>
                 <path d="m0 28-1 29" stroke="#d0efea" opacity=".55" stroke-width="2"/>
               </g>
+              <g class="indoor-sunlight" fill="url(#sunbeam-gradient)"><path d="M583 395 298 620h173L668 395Z"/></g>
             </svg>
 
             <div class="radio-wrap" aria-hidden="true">
