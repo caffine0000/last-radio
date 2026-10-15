@@ -17,11 +17,13 @@
             <svg class="window-art" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <linearGradient id="sky-gradient" x2="0" y2="1"><stop class="sky-upper"/><stop offset="1" class="sky-lower"/></linearGradient>
+                <linearGradient id="sunbeam-gradient" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#f8ddb0" stop-opacity=".3"/><stop offset="1" stop-color="#eddbb9" stop-opacity="0"/></linearGradient>
+                <radialGradient id="sun-halo"><stop stop-color="#fff0bc" stop-opacity=".7"/><stop offset=".4" stop-color="#f4daaa" stop-opacity=".22"/><stop offset="1" stop-color="#f0d29d" stop-opacity="0"/></radialGradient>
                 <linearGradient id="glass-glow" x2="1" y2="1"><stop stop-color="#adc8da" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
                 <linearGradient id="river-gradient" x2="0" y2="1"><stop stop-color="#677f8b" stop-opacity=".5"/><stop offset="1" stop-color="#283e50"/></linearGradient>
                 <radialGradient id="horizon-glow"><stop stop-color="#d9b58c" stop-opacity=".25"/><stop offset="1" stop-color="#b2c8d7" stop-opacity="0"/></radialGradient>
-                <pattern id="rain-far" width="83" height="132" patternUnits="userSpaceOnUse"><path d="m14-12-13 47m39 2-18 61m47-74-14 51m23 28-11 40" stroke="#b4d0df" stroke-width=".8" opacity=".5"/></pattern>
-                <pattern id="rain-near" width="113" height="165" patternUnits="userSpaceOnUse"><path d="m24-35-24 90m68-5-20 76m54-137-18 66m37 58-19 70" stroke="#d2e4ec" stroke-width="1.4" opacity=".65"/></pattern>
+                <pattern id="rain-far" width="61" height="132" patternUnits="userSpaceOnUse"><path d="m14-12-13 47m39 2-18 61m47-74-14 51m23 28-11 40" stroke="#b4d0df" stroke-width="1.2" opacity=".75"/></pattern>
+                <pattern id="rain-near" width="85" height="165" patternUnits="userSpaceOnUse"><path d="m24-35-24 90m68-5-20 76m54-137-18 66m37 58-19 70" stroke="#d2e4ec" stroke-width="1.9" opacity=".85"/></pattern>
                 <pattern id="far-windows" width="24" height="32" patternUnits="userSpaceOnUse"><rect x="8" y="8" width="7" height="12" fill="currentColor" opacity=".5"/></pattern>
                 <pattern id="near-windows" width="34" height="37" patternUnits="userSpaceOnUse"><rect x="9" y="10" width="12" height="18" fill="#b5beb8" opacity=".45"/></pattern>
                 <clipPath id="view-clip"><rect x="48" y="25" width="704" height="513" rx="8"/></clipPath>
@@ -29,8 +31,9 @@
               <rect width="800" height="620" fill="#202934"/>
               <g clip-path="url(#view-clip)">
                 <rect x="35" y="15" width="730" height="540" fill="url(#sky-gradient)"/>
-                <g class="day-orb"><circle cx="611" cy="130" r="68" fill="#ded6b2" opacity=".2"/><circle cx="611" cy="130" r="42" fill="#ded6b2" opacity=".8"/></g>
+                <g class="day-orb"><circle cx="611" cy="130" r="135" fill="url(#sun-halo)"/><circle cx="611" cy="130" r="68" fill="#ded6b2" opacity=".2"/><circle cx="611" cy="130" r="42" fill="#ded6b2" opacity=".8"/></g>
                 <g class="night-orb" fill="#d0d8dd"><path d="M635 75a40 40 0 1 0 29 66 37 37 0 0 1-29-66Z"/><circle cx="170" cy="85" r="2"/><circle cx="290" cy="125" r="1.5"/><circle cx="505" cy="60" r="2"/><circle cx="692" cy="230" r="2"/><path d="m460 150 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/></g>
+                <g class="night-stars" fill="#d6e5ee"><circle cx="65" cy="42" r="1.25" opacity="0.50"/><circle cx="162" cy="95" r="1.65" opacity="0.65"/><circle cx="259" cy="148" r="2.05" opacity="0.80"/><circle cx="356" cy="201" r="2.45" opacity="0.95"/><circle cx="453" cy="62" r="1.25" opacity="0.50"/><circle cx="550" cy="115" r="1.65" opacity="0.65"/><circle cx="647" cy="168" r="2.05" opacity="0.80"/><circle cx="78" cy="221" r="2.45" opacity="0.95"/><circle cx="175" cy="82" r="1.25" opacity="0.50"/><circle cx="272" cy="135" r="1.65" opacity="0.65"/><circle cx="369" cy="188" r="2.05" opacity="0.80"/><circle cx="466" cy="49" r="2.45" opacity="0.95"/><circle cx="563" cy="102" r="1.25" opacity="0.50"/><circle cx="660" cy="155" r="1.65" opacity="0.65"/><circle cx="91" cy="208" r="2.05" opacity="0.80"/><circle cx="188" cy="69" r="2.45" opacity="0.95"/><circle cx="285" cy="122" r="1.25" opacity="0.50"/><circle cx="382" cy="175" r="1.65" opacity="0.65"/><circle cx="479" cy="228" r="2.05" opacity="0.80"/><circle cx="576" cy="89" r="2.45" opacity="0.95"/><circle cx="673" cy="142" r="1.25" opacity="0.50"/><circle cx="104" cy="195" r="1.65" opacity="0.65"/><circle cx="201" cy="56" r="2.05" opacity="0.80"/><circle cx="298" cy="109" r="2.45" opacity="0.95"/><circle cx="395" cy="162" r="1.25" opacity="0.50"/><circle cx="492" cy="215" r="1.65" opacity="0.65"/><circle cx="589" cy="76" r="2.05" opacity="0.80"/><circle cx="686" cy="129" r="2.45" opacity="0.95"/><circle cx="117" cy="182" r="1.25" opacity="0.50"/><circle cx="214" cy="43" r="1.65" opacity="0.65"/><circle cx="311" cy="96" r="2.05" opacity="0.80"/><circle cx="408" cy="149" r="2.45" opacity="0.95"/><circle cx="505" cy="202" r="1.25" opacity="0.50"/><circle cx="602" cy="63" r="1.65" opacity="0.65"/><circle cx="699" cy="116" r="2.05" opacity="0.80"/><circle cx="130" cy="169" r="2.45" opacity="0.95"/><circle cx="227" cy="222" r="1.25" opacity="0.50"/><circle cx="324" cy="83" r="1.65" opacity="0.65"/><circle cx="421" cy="136" r="2.05" opacity="0.80"/><circle cx="518" cy="189" r="2.45" opacity="0.95"/><circle cx="615" cy="50" r="1.25" opacity="0.50"/><circle cx="712" cy="103" r="1.65" opacity="0.65"/></g>
                 <g class="clouds" fill="#c2cbd4" opacity=".2"><path d="M74 149c21-27 45-25 60-6 24-36 65-30 80 3 24-13 51 0 55 18H70Z"/><path d="M385 212c19-20 41-17 50-3 23-32 59-28 77-1 32-8 52 3 57 18H371Z"/><path d="M543 54c17-22 37-23 52-6 26-33 61-21 69-2 25-7 46 4 49 18H530Z"/></g>
                 <ellipse cx="580" cy="290" rx="320" ry="230" fill="url(#horizon-glow)"/>
                 <path d="M35 349 120 268 176 300 279 211 351 287 423 246 487 287 569 218 636 272 711 233 774 278v240H35Z" fill="var(--far)" opacity=".38"/>
@@ -48,18 +51,20 @@
                 <path d="M40 526h720" stroke="#82949b" stroke-width="2"/>
                 <path d="M110 528v-15m110 15v-15m110 15v-15m110 15v-15m110 15v-15m110 15v-15m-610 0h720" stroke="#536a77" stroke-width="2"/>
                 <g stroke="#4f6472" fill="none" stroke-width="2"><path d="M98 335v-25h38m-18 25v-39m158 4v-24h53m-23 24v-42m207 92v-26h37m-18 26v-39m185 11v-28h24"/><path d="M298 246q14-11 26 0m0 0q13-12 26-1" opacity=".7"/></g>
+                <g class="sunbeams" fill="url(#sunbeam-gradient)"><path d="M598 57 72 539h145L641 57Z"/><path d="M656 68 283 539h76L682 68Z"/></g>
                 <rect x="48" y="25" width="704" height="513" fill="url(#glass-glow)"/>
                 <path d="m95 30 260 510h70L165 30Z" fill="#fff" opacity=".07"/>
               </g>
               <g clip-path="url(#view-clip)" pointer-events="none">
                 <rect class="rain-far-sheet" x="-100" y="-160" width="1050" height="900" fill="url(#rain-far)"/>
                 <rect class="rain-near-sheet" x="-100" y="-180" width="1050" height="950" fill="url(#rain-near)"/>
-                <g class="glass-rivulets" fill="none" stroke="#a4c2d0" opacity=".23"><path d="M134 57q-8 49-3 76t-6 88m387-172q-8 43-3 81t-8 102m179-81q-8 35-5 63t-6 68"/><path d="m273 285-2 37m-84 75-4 51m419-112-3 41m-36-283-3 33" stroke-width="2"/></g>
+                <g class="glass-rivulets" fill="none" stroke="#a4c2d0" opacity=".4"><path d="M134 57q-8 49-3 76t-6 88m387-172q-8 43-3 81t-8 102m179-81q-8 35-5 63t-6 68"/><path d="m273 285-2 37m-84 75-4 51m419-112-3 41m-36-283-3 33" stroke-width="2"/></g>
               </g>
               <rect x="42" y="20" width="716" height="526" rx="12" fill="none" stroke="#151d28" stroke-width="15"/>
               <rect x="53" y="30" width="694" height="506" rx="6" fill="none" stroke="#374452" stroke-width="9"/>
               <path d="M400 25v513M50 247h700" stroke="#151d28" stroke-width="14"/><path d="M403 28v506M55 244h688" stroke="#465361" stroke-width="7"/>
               <path d="M0 541h800v79H0Z" fill="#2c3742"/><path d="M0 542h800v13H0Z" fill="#414e5a"/><path d="M0 555h800v7H0Z" fill="#19232e" opacity=".6"/>
+              <g class="indoor-sunlight" fill="url(#sunbeam-gradient)"><path d="M583 395 298 620h173L668 395Z"/></g>
               <path d="M19 589h750M77 614h260M520 575h240" stroke="#4b5661" stroke-width="2" opacity=".4"/>
               <g transform="translate(72 446)"><path d="M21 68V4m0 39C-6 38-7 15 0 10c23 1 26 16 21 33m0-10C48 30 55 6 44 0 27 4 19 16 21 33m0 25C46 55 57 34 44 29 26 34 23 44 21 58" fill="#6b8279" stroke="#425b55" stroke-width="3"/><path d="M-3 66h48l-6 48H4Z" fill="#46535c" stroke="#27323e" stroke-width="3"/><path d="M-6 66h54v12H-6Z" fill="#58666e" stroke="#27323e" stroke-width="3"/></g>
               <g transform="translate(645 500)" stroke="#465461" stroke-width="3"><path d="M42 15c37-12 37 36 0 28" fill="none"/><path d="M0 9h45v40q-22 19-45 0Z" fill="#889297"/><ellipse cx="22" cy="9" rx="23" ry="6" fill="#36342e"/><path d="M12-5q-11-11 0-22m16 22q-9-10 0-22" fill="none" stroke="#bcc5c4" opacity=".7"/></g>
@@ -95,7 +100,7 @@
 
             <div class="radio-wrap" aria-hidden="true">
               <svg class="radio-illustration" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
-                <defs><linearGradient id="radio-paint" x2=".6" y2="1"><stop stop-color="#c77d64"/><stop offset="1" stop-color="#8c4c45"/></linearGradient><pattern id="speaker-mesh" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#273e43"/><circle cx="1" cy="1" r=".7" fill="#7d8b80"/></pattern></defs>
+                <defs><linearGradient id="radio-paint" x2=".6" y2="1"><stop stop-color="var(--radio-body, #c77d64)"/><stop offset="1" stop-color="var(--radio-body-shadow, #8c4c45)"/></linearGradient><pattern id="speaker-mesh" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="var(--radio-speaker, #273e43)"/><circle cx="1" cy="1" r=".7" fill="#7d8b80"/></pattern></defs>
                 <path d="m254 72 22-67" stroke="#23333e" stroke-width="5" stroke-linecap="round"/><path d="m254 72 22-67" stroke="#a9b1ac" stroke-width="2" stroke-linecap="round"/>
                 <path d="M95 66V46q0-11 11-11h84q11 0 11 11v20" fill="none" stroke="#28373d" stroke-width="8"/>
                 <path d="M19 176v14h29v-14m203 0v14h29v-14" fill="#25323c"/>
@@ -104,16 +109,15 @@
                 <rect x="20" y="78" width="126" height="86" rx="6" fill="url(#speaker-mesh)" stroke="#745547" stroke-width="4"/>
                 <path d="M27 81h110" stroke="#b28f72" opacity=".4"/>
                 <text x="164" y="85" fill="#efdbbf" font-family="sans-serif" font-size="8" letter-spacing="1.4">LAST RADIO</text>
-                <rect x="162" y="93" width="113" height="31" rx="3" fill="#b3c4a9" stroke="#5f6b59" stroke-width="2"/>
+                <rect x="162" y="93" width="113" height="31" rx="3" fill="var(--radio-display, #b3c4a9)" stroke="#5f6b59" stroke-width="2"/>
                 <path d="M169 117h99m-92-3v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5" stroke="#657f70" stroke-width=".8"/>
-                <text id="frequency" x="219" y="112" text-anchor="middle" fill="#314f4a" font-family="monospace" font-size="17">89.1</text>
-                <g fill="#d5c4a0" stroke="#735a4d" stroke-width="2"><circle cx="180" cy="146" r="12"/><circle cx="221" cy="146" r="12"/></g>
-                <path d="M180 137v8m41-8v8" stroke="#6c7063" stroke-width="2" stroke-linecap="round"/>
+                <text id="frequency" x="219" y="112" text-anchor="middle" fill="var(--radio-display-ink, #314f4a)" font-family="monospace" font-size="17">89.1</text>
+                <g fill="var(--radio-knobs, #d5c4a0)" stroke="#735a4d" stroke-width="2"><circle cx="180" cy="146" r="12"/><circle cx="221" cy="146" r="12"/></g>
+                <path d="M180 137v8m41-8v8" stroke="var(--radio-knob-ink, #6c7063)" stroke-width="2" stroke-linecap="round"/>
                 <rect x="252" y="136" width="20" height="19" rx="3" fill="#4c6b69" stroke="#304b50" stroke-width="2"/>
               </svg>
               <svg class="sound-waves" viewBox="0 0 48 64" aria-hidden="true"><path d="M10 16 22 5"/><path d="M14 31h19"/><path d="m10 46 12 11"/></svg>
             </div>
-            <span class="scene-caption" id="sky-caption">창밖에는 여우비가 내립니다.</span>
           </div>
           <div class="listening-bar"><div class="listening-state"><i id="lamp"></i><span id="signal">방송을 기다리며</span><span id="channel">000 RECEIVED</span></div><div class="controls"><div><span class="tiny">다음 목소리까지</span><div class="timer" id="timer">00:15</div></div><button id="power" class="power">라디오 켜기 ↗</button></div><div class="progress"><div id="progress-fill"></div></div><p id="timer-note" class="hardware-note">라디오를 켜고 잠시 쉬어 가세요.</p></div>
         </section>
@@ -131,6 +135,7 @@
         <p class="dialog-note">설정 중에는 라디오 쿨타임이 정지합니다.</p>
         <div class="settings-body"><label for="cooldown">다음 방송 기본 간격 (초)</label><input id="cooldown" type="number" min="1" max="3600" step="1" aria-describedby="cooldown-help">
         <p id="cooldown-help">1–3,600초. 간격 변경은 다음 대기부터 적용됩니다.</p>
+        <fieldset class="radio-colors"><legend>라디오 컬러 파츠</legend><p>색상 코드를 입력하거나 색상표를 눌러 미리 볼 수 있습니다.</p><div class="color-row"><label for="color-body">본체</label><input id="picker-body" type="color" aria-label="본체 색상 선택"><input id="color-body" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="본체 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-speaker">스피커</label><input id="picker-speaker" type="color" aria-label="스피커 색상 선택"><input id="color-speaker" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="스피커 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-knobs">다이얼 버튼</label><input id="picker-knobs" type="color" aria-label="다이얼 버튼 색상 선택"><input id="color-knobs" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="다이얼 버튼 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-display">주파수 표시창</label><input id="picker-display" type="color" aria-label="주파수 표시창 색상 선택"><input id="color-display" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="주파수 표시창 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><button id="reset-radio-colors" type="button" class="color-reset">라디오 기본색으로</button></fieldset>
         <label for="speed">라디오 쿨타임 배속</label><select id="speed"><option value="0.5">0.5배</option><option value="1">1배</option><option value="2">2배</option><option value="4">4배</option><option value="8">8배</option></select>
         <p>배속은 남아 있는 대기 시간에도 즉시 반영됩니다.</p><button id="save-settings">설정 적용</button><p id="save-status" role="status"></p>
         <hr><p>기록, 해금, 천장 카운트, 수집품을 모두 초기화합니다.</p><button id="reset" class="reset">진행 리셋</button></div>
