@@ -2,31 +2,69 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#161b18"><meta name="description" content="정적 속에서 도착하는 방송. 듣고, 선택하고, 다음 신호를 기다리세요.">
+  <meta name="theme-color" content="#f4efe8"><meta name="description" content="여우비 내리는 창가, 폐허가 된 신구획의 작은 방송국. 언제든 죽을 수 있는 누군가를 위한 방송.">
   <title>종말 라디오</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="shell">
-    <header><a class="brand" href="./">LAST FREQUENCY <span>수신소 001</span></a><span class="local">LOCAL TRANSMISSION</span></header>
+    <header><a class="brand" href="./"><span class="brand-symbol">◉</span> 종말 라디오 <span class="station-name">신구획 작은 방송국</span></a><span class="local">어딘가의 당신에게, 오늘도.</span></header>
     <main>
-      <div class="intro"><p class="eyebrow">끝나지 않은 세계의 마지막 주파수</p><h1>종말 라디오<span class="title-dot">.</span></h1><p>잡음 너머의 목소리를 듣고, 당신의 다음 행동을 선택하세요.</p></div>
+      <div class="intro"><p class="eyebrow">A LITTLE STATION, A LITTLE HOPE</p><h1>비가 와도, 방송은 계속<span class="title-dot">.</span></h1><p>언제든 죽을 수 있는 누군가를 위해. 우리 셋은 오늘도 마이크를 켭니다.</p></div>
       <div class="layout">
-        <section class="receiver" aria-label="라디오 수신기">
-          <div class="hardware-label"><span>PORTABLE RECEIVER / R-01</span><span class="screw">⊕</span></div>
-          <div class="display"><div class="display-top"><span><i id="lamp"></i> <span id="signal">전원 대기</span></span><span>FM</span></div><div class="frequency"><span id="frequency">––.–</span><small>MHz</small></div><div class="dial"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div><div class="dial-line"></div><div class="wave" aria-hidden="true"></div><div class="display-bottom"><span>수신 채널</span><span id="channel">000 / 003</span></div></div>
-          <div class="speaker" aria-hidden="true"></div>
-          <div class="controls"><div><span class="tiny">NEXT TRANSMISSION</span><div class="timer" id="timer">00:15</div></div><button id="power" class="power">수신 시작 <span>↗</span></button></div>
-          <div class="progress"><div id="progress-fill"></div></div>
-          <p id="timer-note" class="hardware-note">전원을 켜면 첫 번째 방송을 기다립니다.</p>
+        <section class="receiver" aria-label="여우비 내리는 창가의 라디오">
+          <div class="scene-top"><span><i class="weather-dot"></i> 신구획 단지 · 여우비</span><time id="local-clock">지금의 하늘</time></div>
+          <div class="window-scene" role="img" aria-label="폐허가 된 단지 너머로 여우비가 내리고, 창가에는 작은 라디오와 세 사람의 메모가 놓여 있습니다.">
+            <svg class="window-art" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="sky-gradient" x2="0" y2="1"><stop class="sky-upper"/><stop offset="1" class="sky-lower"/></linearGradient>
+                <linearGradient id="glass-glow" x2="1" y2="1"><stop stop-color="#fff7d9" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                <pattern id="far-windows" width="24" height="32" patternUnits="userSpaceOnUse"><rect x="8" y="8" width="7" height="12" fill="currentColor" opacity=".5"/></pattern>
+                <pattern id="near-windows" width="34" height="37" patternUnits="userSpaceOnUse"><rect x="9" y="10" width="12" height="18" fill="#f8dfa3" opacity=".45"/></pattern>
+                <clipPath id="view-clip"><rect x="48" y="25" width="704" height="513" rx="155"/></clipPath>
+              </defs>
+              <rect width="800" height="620" fill="#e9dccc"/>
+              <g clip-path="url(#view-clip)">
+                <rect x="35" y="15" width="730" height="540" fill="url(#sky-gradient)"/>
+                <g class="day-orb"><circle cx="611" cy="130" r="68" fill="#fff2bf" opacity=".2"/><circle cx="611" cy="130" r="42" fill="#fff2bf" opacity=".8"/></g>
+                <g class="night-orb" fill="#fff3d0"><path d="M635 75a40 40 0 1 0 29 66 37 37 0 0 1-29-66Z"/><circle cx="170" cy="85" r="2"/><circle cx="290" cy="125" r="1.5"/><circle cx="505" cy="60" r="2"/><circle cx="692" cy="230" r="2"/><path d="m460 150 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/></g>
+                <g class="clouds" fill="#fff8ee" opacity=".48"><path d="M74 149c21-27 45-25 60-6 24-36 65-30 80 3 24-13 51 0 55 18H70Z"/><path d="M385 212c19-20 41-17 50-3 23-32 59-28 77-1 32-8 52 3 57 18H371Z"/><path d="M543 54c17-22 37-23 52-6 26-33 61-21 69-2 25-7 46 4 49 18H530Z"/></g>
+                <g class="far-city"><path d="M35 400V292h57v-30h42v59h45v-98h65v44h35v-60h44v40h38v78h44v-54h61v-80h36v38h49v-34h54v84h39v-58h56v83h60v-53h66v250H35Z"/><path d="M35 400V292h57v-30h42v59h45v-98h65v44h35v-60h44v40h38v78h44v-54h61v-80h36v38h49v-34h54v84h39v-58h56v83h60v-53h66v250H35Z" fill="url(#far-windows)"/></g>
+                <g class="near-city"><path d="M23 540V346h78v-29h72l18 18-14 34 24 10v161Zm208 0V320l30-15 22 12 13-28h50l-9 30h34v221Zm190 0V374h58v-28h57v-31l36-16 29 18v223Zm212 0V355h40v-33h52l15 20 28-9v207Z"/><path d="M23 540V346h78v-29h72l18 18-14 34 24 10v161Zm208 0V320l30-15 22 12 13-28h50l-9 30h34v221Zm190 0V374h58v-28h57v-31l36-16 29 18v223Zm212 0V355h40v-33h52l15 20 28-9v207Z" fill="url(#near-windows)"/>
+                  <path d="m156 337-13 52 15 26-28 31m158-135-8 53 20 15-19 25m276-90 12 35-18 27 9 25" fill="none" stroke="#494c65" stroke-width="4" opacity=".65"/>
+                </g>
+                <g stroke="#5c6173" fill="none"><path d="M15 420q170 76 340 7t420 12" stroke-width="6"/><path d="M15 415q170 76 340 7t420 12" stroke="#adb3ad" stroke-width="5"/><path d="M130 452v84m390-117v117" stroke-width="10"/><path d="M108 220v150m0-138h32m-22-12v-23m511 47v81m-17-66h34" stroke-width="3"/></g>
+                <g fill="#728d80" opacity=".85"><path d="M47 485q-40-60 12-87 2 42 18 38 0-62 40-58-2 53 25 80 12-54 43-34l-16 61Z"/><path d="M650 530q-20-61 18-81-7 50 19 33 7-68 46-54l-7 102Z"/></g>
+                <rect x="48" y="25" width="704" height="513" fill="url(#glass-glow)"/>
+                <path d="m95 30 260 510h70L165 30Z" fill="#fff" opacity=".07"/>
+              </g>
+              <rect x="42" y="20" width="716" height="526" rx="161" fill="none" stroke="#7a7273" stroke-width="15"/>
+              <rect x="53" y="30" width="694" height="506" rx="151" fill="none" stroke="#f5e9d9" stroke-width="9"/>
+              <path d="M400 25v513M50 247h700" stroke="#7a7273" stroke-width="14"/><path d="M403 28v506M55 244h688" stroke="#f9edde" stroke-width="7"/>
+              <path d="M0 541h800v79H0Z" fill="#cab39f"/><path d="M0 542h800v13H0Z" fill="#f7e7d1"/><path d="M0 555h800v7H0Z" fill="#a78d80" opacity=".6"/>
+              <path d="M19 589h750M77 614h260M520 575h240" stroke="#b69884" stroke-width="2" opacity=".4"/>
+              <g transform="translate(72 431)"><path d="M21 68V4m0 39C-6 38-7 15 0 10c23 1 26 16 21 33m0-10C48 30 55 6 44 0 27 4 19 16 21 33m0 25C46 55 57 34 44 29 26 34 23 44 21 58" fill="#779a7d" stroke="#607a68" stroke-width="3"/><path d="M-3 66h48l-6 48H4Z" fill="#d48b79" stroke="#9a6b61" stroke-width="3"/><path d="M-6 66h54v12H-6Z" fill="#e3a18a" stroke="#9a6b61" stroke-width="3"/></g>
+              <g transform="translate(645 480)" stroke="#9f7b76" stroke-width="3"><path d="M42 15c37-12 37 36 0 28" fill="none"/><path d="M0 9h45v40q-22 19-45 0Z" fill="#f5e5cb"/><ellipse cx="22" cy="9" rx="23" ry="6" fill="#aa7e67"/><path d="M12 30q10 13 20 0" fill="none"/><path d="M12-5q-11-11 0-22m16 22q-9-10 0-22" fill="none" stroke="#fff6df" opacity=".7"/></g>
+              <g transform="translate(682 326) rotate(8)"><rect width="79" height="107" rx="2" fill="#fff4dd" stroke="#c2aaa0" stroke-width="2"/><path d="M24-7h34v17H24Z" fill="#c2b6ce" opacity=".9"/><path d="M12 40h52M12 51h44M12 62h49M12 73h35" stroke="#b9a29b" stroke-width="2"/><path d="m31 91 5-9 6 9 8-9 3 9" fill="none" stroke="#bf8995" stroke-width="2"/></g>
+            </svg>
+            <div class="rain" aria-hidden="true"></div>
+            <div class="radio-wrap" aria-hidden="true">
+              <span class="sound-bubble">지직… 들리나요?</span><span class="sound-note note-one">♪</span><span class="sound-note note-two">♫</span><span class="sound-lines">〃</span>
+              <div class="radio-antenna"></div><div class="radio-handle"></div>
+              <div class="radio-body"><div class="radio-speaker"></div><div class="radio-right"><span class="radio-name">종말 RADIO</span><div class="radio-dial"><span id="frequency">89.1</span><small>FM</small></div><div class="radio-knobs"><i></i><i></i></div></div><span class="radio-sticker">✦</span></div>
+            </div>
+            <div class="crew-notes" aria-hidden="true"><span class="crew-cat">ฅ</span><span class="crew-elf">✧</span><span class="crew-human">♡</span><small>셋이서, 오늘도 ON AIR.</small></div>
+            <span class="scene-caption" id="sky-caption">창밖에는 여우비가 내립니다.</span>
+          </div>
+          <div class="listening-bar"><div class="listening-state"><i id="lamp"></i><span id="signal">방송을 기다리며</span><span id="channel">000 RECEIVED</span></div><div class="controls"><div><span class="tiny">다음 목소리까지</span><div class="timer" id="timer">00:15</div></div><button id="power" class="power">라디오 켜기 ↗</button></div><div class="progress"><div id="progress-fill"></div></div><p id="timer-note" class="hardware-note">라디오를 켜고 잠시 쉬어 가세요.</p></div>
         </section>
         <section class="transmission" aria-label="방송과 선택지">
-          <div class="section-top"><span class="eyebrow">INCOMING MESSAGE</span><span id="phase-badge" class="badge">STANDBY</span></div>
+          <div class="section-top"><span class="eyebrow">오늘, 라디오에서</span><span id="phase-badge" class="badge">STANDBY</span></div>
           <div id="message" aria-live="polite" aria-atomic="true"></div>
           <div id="choices" class="choices"></div>
           <div class="footnote"><span class="small-dot"></span><span>방송이 도착하면 선택할 때까지 기다립니다.</span></div>
         </section>
       </div>
-      <section class="log-section"><div class="log-title"><h2>수신 기록 <span id="log-count">00</span></h2><span>TRANSMISSION LOG</span></div><div id="history"></div></section>
+      <section class="log-section"><div class="log-title"><h2>청취 노트 <span id="log-count">00</span></h2><span>작은 목소리들의 흔적</span></div><div id="history"></div></section>
       <nav class="panel-actions" aria-label="게임 메뉴"><button id="open-collection">수집품 <span id="collection-count">0</span></button><button id="open-settings">수신 설정</button></nav>
       <dialog id="settings-dialog" aria-labelledby="settings-heading">
         <div class="dialog-top"><h2 id="settings-heading">수신 설정</h2><button id="close-settings" aria-label="설정 닫기">닫기 ×</button></div>
@@ -39,7 +77,7 @@
       </dialog>
       <dialog id="collection-dialog" aria-labelledby="collection-heading"><div class="dialog-top"><h2 id="collection-heading">수집품</h2><button id="close-collection" aria-label="수집품 창 닫기">닫기 ×</button></div><p class="dialog-note">확인 중에는 라디오 쿨타임이 정지합니다.</p><div id="collection-list"></div></dialog>
     </main>
-    <footer><span>종말 라디오 © 2026</span><span>아직, 누군가는 듣고 있다.</span></footer>
+    <footer><span>종말 라디오 © 2026</span><span>고양이 수인 소년 · 엘프 주파수 기술자 · 휴먼 소녀 프로듀서</span></footer>
   </div>
   <noscript>이 게임을 실행하려면 브라우저에서 JavaScript를 켜주세요.</noscript>
   <script type="module" src="app.js"></script>
