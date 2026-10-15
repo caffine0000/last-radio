@@ -16,6 +16,11 @@
           <div class="window-scene" role="img" aria-label="평범한 도시가 보이는 수사관 사무실 창가. 세찬 여우비가 쏟아지는 창문 앞에 라디오와 화분, 머그잔, 서류철이 놓여 있습니다.">
             <svg class="window-art" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
+                <linearGradient id="ceramic" x2="1" y2=".15"><stop stop-color="#b8c2c0"/><stop offset=".3" stop-color="#899d9e"/><stop offset="1" stop-color="#455f69"/></linearGradient>
+                <linearGradient id="plant-pot" x2="1" y2="0"><stop stop-color="#a19a8a"/><stop offset=".45" stop-color="#7a8179"/><stop offset="1" stop-color="#4d5d60"/></linearGradient>
+                <linearGradient id="metal-shade" x2="1" y2="1"><stop stop-color="#a1b7b9"/><stop offset=".35" stop-color="#6f8e96"/><stop offset="1" stop-color="#344d5c"/></linearGradient>
+                <linearGradient id="glass-vase" x2="1" y2="0"><stop stop-color="#afdfdf" stop-opacity=".48"/><stop offset=".45" stop-color="#98c6c9" stop-opacity=".12"/><stop offset="1" stop-color="#527f8f" stop-opacity=".6"/></linearGradient>
+                <linearGradient id="desk-plane" x2="0" y2="1"><stop stop-color="#52616b"/><stop offset="1" stop-color="#303e4c"/></linearGradient>
                 <linearGradient id="sky-gradient" x2="0" y2="1"><stop class="sky-upper"/><stop offset="1" class="sky-lower"/></linearGradient>
                 <linearGradient id="sunbeam-gradient" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#f8ddb0" stop-opacity=".3"/><stop offset="1" stop-color="#eddbb9" stop-opacity="0"/></linearGradient>
                 <radialGradient id="sun-halo"><stop stop-color="#fff0bc" stop-opacity=".7"/><stop offset=".4" stop-color="#f4daaa" stop-opacity=".22"/><stop offset="1" stop-color="#f0d29d" stop-opacity="0"/></radialGradient>
@@ -63,58 +68,88 @@
               <rect x="42" y="20" width="716" height="526" rx="12" fill="none" stroke="#151d28" stroke-width="15"/>
               <rect x="53" y="30" width="694" height="506" rx="6" fill="none" stroke="#374452" stroke-width="9"/>
               <path d="M400 25v513M50 247h700" stroke="#151d28" stroke-width="14"/><path d="M403 28v506M55 244h688" stroke="#465361" stroke-width="7"/>
-              <path d="M0 541h800v79H0Z" fill="#2c3742"/><path d="M0 542h800v13H0Z" fill="#414e5a"/><path d="M0 555h800v7H0Z" fill="#19232e" opacity=".6"/>
+              <path d="M0 541h800v49H0Z" fill="url(#desk-plane)"/><path d="M0 590h800v30H0Z" fill="#263442"/><path d="M0 542h800v13H0Z" fill="#414e5a"/><path d="M0 555h800v7H0Z" fill="#19232e" opacity=".6"/>
               <g class="indoor-sunlight" fill="url(#sunbeam-gradient)"><path d="M583 395 298 620h173L668 395Z"/></g>
               <path d="M19 589h750M77 614h260M520 575h240" stroke="#4b5661" stroke-width="2" opacity=".4"/>
-              <g transform="translate(72 446)"><path d="M21 68V4m0 39C-6 38-7 15 0 10c23 1 26 16 21 33m0-10C48 30 55 6 44 0 27 4 19 16 21 33m0 25C46 55 57 34 44 29 26 34 23 44 21 58" fill="#6b8279" stroke="#425b55" stroke-width="3"/><path d="M-3 66h48l-6 48H4Z" fill="#46535c" stroke="#27323e" stroke-width="3"/><path d="M-6 66h54v12H-6Z" fill="#58666e" stroke="#27323e" stroke-width="3"/></g>
-              <g transform="translate(645 500)" stroke="#465461" stroke-width="3"><path d="M42 15c37-12 37 36 0 28" fill="none"/><path d="M0 9h45v40q-22 19-45 0Z" fill="#889297"/><ellipse cx="22" cy="9" rx="23" ry="6" fill="#36342e"/><path d="M12-5q-11-11 0-22m16 22q-9-10 0-22" fill="none" stroke="#bcc5c4" opacity=".7"/></g>
-              <g transform="translate(474 532)" stroke="#26313e" stroke-width="2">
-                <path d="M0 7h92l11 8H0Z" fill="#4f5b6b"/><path d="M0 15h103v13H0Z" fill="#303d4d"/>
-                <path d="M4 18h92m-92 4h92" stroke="#87919c"/>
-                <path d="M8 2h78l9 8H8Z" fill="#67706b"/><path d="M8 10h87v5H8Z" fill="#a6aaa1"/>
-                <path d="m16-5 59-11 2 5-59 11Z" fill="#849295"/><path d="m75-16 7 1-5 4Z" fill="#adb6ad"/>
+              <g transform="translate(61 432)">
+                <ellipse cx="28" cy="129" rx="42" ry="7" fill="#111d2a" opacity=".4"/>
+                <path d="M29 88V20m0 40C-4 53-7 25 2 21c22 1 32 19 27 39m0-15C54 43 66 17 55 9 35 13 26 29 29 45m0 30C57 70 64 50 52 46 33 51 29 62 29 75" fill="#78998a" stroke="#4a6d64" stroke-width="2"/>
+                <path d="M29 23v55m0-31L8 30m21 9 21-20" stroke="#a2b7a0" fill="none" stroke-width="1.2"/>
+                <path d="M3 85h52l-7 39q-20 9-39 0Z" fill="url(#plant-pot)"/>
+                <ellipse cx="29" cy="85" rx="26" ry="7" fill="#9a9f91"/><ellipse cx="29" cy="86" rx="21" ry="4" fill="#3b4947"/>
+                <path d="M12 94 16 119" stroke="#d0c8ad" stroke-opacity=".35" stroke-width="2"/>
               </g>
-              <g data-room-decoration="desk-lamp" hidden transform="translate(0 23)">
-                <ellipse cx="588" cy="534" rx="83" ry="16" fill="var(--room-accent, #94b8b3)" opacity=".12"/>
-                <path d="M593 435 537 535h111Z" fill="#dfd7b0" opacity=".06"/>
-                <path d="M604 526v-57l-31-42" fill="none" stroke="#8c9a9d" stroke-width="7" stroke-linejoin="round"/>
-                <path d="m551 428 23-21 31 20-15 23Z" fill="#536570" stroke="#273642" stroke-width="3"/>
-                <path d="m551 428 39 22" stroke="#e2d5ad" stroke-width="4"/>
-                <path d="M580 530q25-11 48 0v7h-48Z" fill="#5c6d77"/>
+              <g transform="translate(652 496)">
+                <ellipse cx="24" cy="65" rx="38" ry="6" fill="#0e1c29" opacity=".4"/>
+                <ellipse cx="24" cy="62" rx="34" ry="6" fill="#667d86"/><ellipse cx="24" cy="61" rx="29" ry="3" fill="#3b5662"/>
+                <path d="M44 13c31-9 31 32-1 31" fill="none" stroke="#728d94" stroke-width="8"/><path d="M45 14c22-5 22 24 0 24" fill="none" stroke="#a5b5b5" stroke-width="2"/>
+                <path d="M2 8h44v41q-22 17-44 0Z" fill="url(#ceramic)"/>
+                <ellipse cx="24" cy="8" rx="22" ry="6" fill="#c5ccbf"/><ellipse cx="24" cy="8" rx="18" ry="4" fill="#333d37"/>
+                <path d="M9 17v28" stroke="#dde4d7" opacity=".3" stroke-width="2"/>
+                <path d="M15-7q-9-12 1-26m14 24q-8-10 0-22" fill="none" stroke="#c0d0ce" opacity=".25" stroke-width="2"/>
               </g>
-              <g data-room-decoration="books" hidden transform="translate(482 496)" stroke="#25313d" stroke-width="2">
-                <path d="M0 22h83v15H0Z" fill="#7b858b"/><path d="M5 26h73v7H5Z" fill="#b7b9ad"/>
-                <path d="M5 8h73v14H5Z" fill="#516675"/><path d="M10 12h63v6H10Z" fill="#9fa8a7"/>
-                <path d="M0-5h79V8H0Z" fill="#798371"/>
+              <g transform="translate(474 532)">
+                <ellipse cx="54" cy="29" rx="63" ry="6" fill="#101c27" opacity=".4"/>
+                <path d="M0 11 92 6l18 8-94 6Z" fill="#687d87"/><path d="M16 20 110 14v10l-94 5Z" fill="#344d60"/><path d="M0 11 16 20v9L0 20Z" fill="#263e50"/>
+                <path d="M5 14 95 10l9 4-88 5Z" fill="#c4c8bb"/><path d="m19 21 82-4m-82 7 82-4" stroke="#87999c" stroke-width=".8"/>
+                <path d="M5 5 88 0l15 8-83 4Z" fill="#7b8b7e"/><path d="m20 12 83-4v5l-83 4Z" fill="#bbc3b2"/>
+                <path d="m19-1 58-9 2 4-59 9Z" fill="#a2b3b2"/><path d="m76-10 7 1-5 4Z" fill="#4b6674"/>
               </g>
-              <g data-room-decoration="photo-frame" hidden transform="translate(725 471)">
-                <path d="M-5 89 4 40 49 89Z" fill="#25303a"/>
-                <rect width="58" height="77" rx="2" fill="#6a7884"/><rect x="5" y="5" width="48" height="67" fill="#a9b6bc"/>
-                <path d="M5 62 21 40 35 54 46 37 53 52v20H5Z" fill="#6d8686"/><circle cx="37" cy="23" r="8" fill="#d6cfae"/>
+              <g data-room-decoration="desk-lamp" hidden>
+                <ellipse cx="611" cy="562" rx="37" ry="6" fill="#101c27" opacity=".4"/>
+                <ellipse cx="586" cy="559" rx="67" ry="10" fill="var(--room-accent, #94b8b3)" opacity=".09"/>
+                <path d="M580 455 526 555h106Z" fill="#efd5a3" opacity=".07"/>
+                <path d="M609 549v-52l-32-48" fill="none" stroke="#344d5b" stroke-width="9" stroke-linecap="round"/>
+                <path d="M607 549v-52l-32-48" fill="none" stroke="#8ca8af" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="607" cy="496" r="5" fill="#a5b5b6"/>
+                <path d="m549 449 23-23 35 24-16 17Z" fill="url(#metal-shade)" stroke="#385565" stroke-width="2"/>
+                <ellipse cx="570" cy="458" rx="24" ry="6" transform="rotate(22 570 458)" fill="#dec99f"/>
+                <ellipse cx="609" cy="556" rx="24" ry="6" fill="#334c5b"/><ellipse cx="609" cy="553" rx="24" ry="5" fill="url(#metal-shade)"/>
               </g>
-              <g data-room-decoration="glass-vase" hidden transform="translate(430 492)">
-                <path d="M0 18h17l6 44q-16 11-29 0Z" fill="#91b2b4" fill-opacity=".25" stroke="#789497" stroke-width="2"/>
-                <path d="M8 51V-12m0 21q-20-5-18-19Q9-9 8 9m0-5Q28-1 25-18 9-16 8 4" fill="#6b8279" stroke="#557169" stroke-width="2"/>
+              <g data-room-decoration="books" hidden transform="translate(483 490)">
+                <path d="M0 28 68 24l14 8-69 6Z" fill="#8c9a8a"/><path d="m13 38 69-6v9l-69 4Z" fill="#bfc6b3"/><path d="M0 28 13 38v7L0 37Z" fill="#5a7065"/>
+                <path d="M2 16 65 12l14 8-66 5Z" fill="#607f91"/><path d="m13 25 66-5v9l-66 5Z" fill="#aebcb7"/><path d="M2 16 13 25v9L2 25Z" fill="#3e596f"/>
+                <path d="M6 5 63 0l11 8-58 6Z" fill="#9b8c83"/><path d="m16 14 58-6v8l-58 5Z" fill="#c6bfb0"/><path d="M6 5 16 14v7L6 13Z" fill="#695e61"/>
+              </g>
+              <g data-room-decoration="photo-frame" hidden transform="translate(731 475)">
+                <ellipse cx="19" cy="86" rx="31" ry="5" fill="#101c27" opacity=".4"/>
+                <path d="M20 49 47 82H31Z" fill="#1f3342"/>
+                <path d="M-6 5 44 0v75l-50 7Z" fill="#3b5261"/><path d="m-1 10 39-4v64l-39 5Z" fill="#859a9e"/>
+                <path d="m4 15 30-3v52l-30 5Z" fill="#a0b3bb"/><path d="M4 55 15 34l9 16 10-14v28l-30 5Z" fill="#5e7d7c"/><circle cx="25" cy="24" r="6" fill="#d6cfae"/>
+                <path d="M-6 5v77l-4-4V9Z" fill="#243c4e"/>
+              </g>
+              <g data-room-decoration="glass-vase" hidden transform="translate(431 489)">
+                <ellipse cx="10" cy="73" rx="24" ry="4" fill="#101c27" opacity=".35"/>
+                <path d="M0 19h18l6 47q-14 11-30 0Z" fill="url(#glass-vase)" stroke="#789caa" stroke-width="1.3"/>
+                <ellipse cx="9" cy="19" rx="9" ry="3" fill="#526f7c" stroke="#9bbfc4" stroke-width="1"/>
+                <path d="m-1 47 22 0 3 19q-14 11-30 0Z" fill="#72b3bd" opacity=".15"/>
+                <path d="M9 64V-14m0 24q-23-5-21-21Q9-10 9 10m0-4Q29 1 26-18 11-16 9 6" fill="#779b86" stroke="#526f65" stroke-width="1.5"/>
+                <path d="m0 28-1 29" stroke="#d0efea" opacity=".55" stroke-width="2"/>
               </g>
             </svg>
 
             <div class="radio-wrap" aria-hidden="true">
               <svg class="radio-illustration" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
-                <defs><linearGradient id="radio-paint" x2=".6" y2="1"><stop stop-color="var(--radio-body, #c77d64)"/><stop offset="1" stop-color="var(--radio-body-shadow, #8c4c45)"/></linearGradient><pattern id="speaker-mesh" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="var(--radio-speaker, #273e43)"/><circle cx="1" cy="1" r=".7" fill="#7d8b80"/></pattern></defs>
-                <path d="m254 72 22-67" stroke="#23333e" stroke-width="5" stroke-linecap="round"/><path d="m254 72 22-67" stroke="#a9b1ac" stroke-width="2" stroke-linecap="round"/>
-                <path d="M95 66V46q0-11 11-11h84q11 0 11 11v20" fill="none" stroke="#28373d" stroke-width="8"/>
-                <path d="M19 176v14h29v-14m203 0v14h29v-14" fill="#25323c"/>
-                <rect x="5" y="63" width="290" height="118" rx="11" fill="url(#radio-paint)" stroke="#513d3f" stroke-width="3"/>
-                <path d="M18 66h264" stroke="#edb090" stroke-width="3" opacity=".5"/>
-                <rect x="20" y="78" width="126" height="86" rx="6" fill="url(#speaker-mesh)" stroke="#745547" stroke-width="4"/>
-                <path d="M27 81h110" stroke="#b28f72" opacity=".4"/>
-                <text x="164" y="85" fill="#efdbbf" font-family="sans-serif" font-size="8" letter-spacing="1.4">LAST RADIO</text>
-                <rect x="162" y="93" width="113" height="31" rx="3" fill="var(--radio-display, #b3c4a9)" stroke="#5f6b59" stroke-width="2"/>
-                <path d="M169 117h99m-92-3v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5" stroke="#657f70" stroke-width=".8"/>
-                <text id="frequency" x="219" y="112" text-anchor="middle" fill="var(--radio-display-ink, #314f4a)" font-family="monospace" font-size="17">89.1</text>
-                <g fill="var(--radio-knobs, #d5c4a0)" stroke="#735a4d" stroke-width="2"><circle cx="180" cy="146" r="12"/><circle cx="221" cy="146" r="12"/></g>
-                <path d="M180 137v8m41-8v8" stroke="var(--radio-knob-ink, #6c7063)" stroke-width="2" stroke-linecap="round"/>
-                <rect x="252" y="136" width="20" height="19" rx="3" fill="#4c6b69" stroke="#304b50" stroke-width="2"/>
+                <defs>
+                  <linearGradient id="radio-paint" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="var(--radio-body, #78a9a4)"/><stop offset="1" stop-color="var(--radio-body-shadow, #4e6e6b)"/></linearGradient>
+                  <linearGradient id="radio-rim" x2="0" y2="1"><stop stop-color="var(--radio-trim, #cad5cc)"/><stop offset="1" stop-color="var(--radio-trim-shadow, #838a85)"/></linearGradient>
+                  <pattern id="speaker-mesh" width="3.5" height="3.5" patternUnits="userSpaceOnUse"><rect width="3.5" height="3.5" fill="#283b43"/><circle cx="1" cy="1" r=".65" fill="#6c7f81"/></pattern>
+                </defs>
+                <ellipse cx="152" cy="186" rx="132" ry="4" fill="#111923" opacity=".35"/>
+                <path d="m252 68 13-35" stroke="#768b91" stroke-width="3" stroke-linecap="round"/>
+                <path d="M97 65V49q0-13 14-13h74q14 0 14 13v16" fill="none" stroke="#263a43" stroke-width="10"/>
+                <path d="M97 65V49q0-13 14-13h74q14 0 14 13v16" fill="none" stroke="var(--radio-handle, #a7b9b1)" stroke-width="6"/>
+                <rect x="23" y="173" width="32" height="17" rx="5" fill="#263841"/><rect x="244" y="173" width="32" height="17" rx="5" fill="#263841"/>
+                <rect x="6" y="61" width="288" height="122" rx="23" fill="url(#radio-paint)" stroke="#263b43" stroke-width="2"/>
+                <path d="M30 64h240q19 0 20 20" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="2"/>
+                <rect x="17" y="73" width="266" height="96" rx="17" fill="url(#radio-rim)"/>
+                <circle cx="74" cy="121" r="37" fill="#3d5155"/><circle cx="74" cy="121" r="33" fill="url(#speaker-mesh)" stroke="#859997" stroke-width="1.2"/>
+                <text x="139" y="89" fill="#31474c" font-family="sans-serif" font-size="6.5" font-weight="600" letter-spacing="2">LAST / RADIO</text>
+                <rect x="136" y="96" width="122" height="31" rx="7" fill="#243941"/>
+                <path d="M144 99h105" stroke="#9db7b9" stroke-opacity=".18"/>
+                <text id="frequency" x="197" y="117" text-anchor="middle" fill="#c1ddd1" font-family="monospace" font-size="18" letter-spacing="2">89.1</text>
+                <g fill="#435d63"><rect x="140" y="141" width="17" height="10" rx="5"/><rect x="164" y="141" width="17" height="10" rx="5"/><rect x="188" y="141" width="17" height="10" rx="5"/></g>
+                <circle cx="241" cy="146" r="12" fill="#314b54"/><circle cx="241" cy="145" r="10" fill="#6c858a"/><path d="M241 138v5" stroke="#d0ddda" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
               <svg class="sound-waves" viewBox="0 0 48 64" aria-hidden="true"><path d="M10 16 22 5"/><path d="M14 31h19"/><path d="m10 46 12 11"/></svg>
             </div>
@@ -135,7 +170,7 @@
         <p class="dialog-note">설정 중에는 라디오 쿨타임이 정지합니다.</p>
         <div class="settings-body"><label for="cooldown">다음 방송 기본 간격 (초)</label><input id="cooldown" type="number" min="1" max="3600" step="1" aria-describedby="cooldown-help">
         <p id="cooldown-help">1–3,600초. 간격 변경은 다음 대기부터 적용됩니다.</p>
-        <fieldset class="radio-colors"><legend>라디오 컬러 파츠</legend><p>색상 코드를 입력하거나 색상표를 눌러 미리 볼 수 있습니다.</p><div class="color-row"><label for="color-body">본체</label><input id="picker-body" type="color" aria-label="본체 색상 선택"><input id="color-body" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="본체 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-speaker">스피커</label><input id="picker-speaker" type="color" aria-label="스피커 색상 선택"><input id="color-speaker" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="스피커 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-knobs">다이얼 버튼</label><input id="picker-knobs" type="color" aria-label="다이얼 버튼 색상 선택"><input id="color-knobs" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="다이얼 버튼 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><div class="color-row"><label for="color-display">주파수 표시창</label><input id="picker-display" type="color" aria-label="주파수 표시창 색상 선택"><input id="color-display" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="주파수 표시창 색상 코드" title="#을 포함한 6자리 색상 코드: #C77D64"></div><button id="reset-radio-colors" type="button" class="color-reset">라디오 기본색으로</button></fieldset>
+        <fieldset class="radio-colors"><legend>라디오 외장 색상</legend><p>케이스·외장 테두리·손잡이만 바뀝니다. 스피커와 조작부는 고정색입니다.</p><div class="color-row"><label for="color-body">외장 케이스</label><input id="picker-body" type="color" aria-label="외장 케이스 색상 선택"><input id="color-body" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="외장 케이스 색상 코드" title="#을 포함한 6자리 색상 코드"></div><div class="color-row"><label for="color-trim">외장 테두리</label><input id="picker-trim" type="color" aria-label="외장 테두리 색상 선택"><input id="color-trim" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="외장 테두리 색상 코드" title="#을 포함한 6자리 색상 코드"></div><div class="color-row"><label for="color-handle">손잡이</label><input id="picker-handle" type="color" aria-label="손잡이 색상 선택"><input id="color-handle" class="hex-input" type="text" pattern="#[0-9a-fA-F]{6}" maxlength="7" required spellcheck="false" autocapitalize="off" aria-label="손잡이 색상 코드" title="#을 포함한 6자리 색상 코드"></div><button id="reset-radio-colors" type="button" class="color-reset">라디오 기본색으로</button></fieldset>
         <label for="speed">라디오 쿨타임 배속</label><select id="speed"><option value="0.5">0.5배</option><option value="1">1배</option><option value="2">2배</option><option value="4">4배</option><option value="8">8배</option></select>
         <p>배속은 남아 있는 대기 시간에도 즉시 반영됩니다.</p><button id="save-settings">설정 적용</button><p id="save-status" role="status"></p>
         <hr><p>기록, 해금, 천장 카운트, 수집품을 모두 초기화합니다.</p><button id="reset" class="reset">진행 리셋</button></div>
