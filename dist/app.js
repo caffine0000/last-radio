@@ -1,3 +1,4 @@
+import { initRadioColors } from './radio-colors.js';
 import { appendEventImage } from './event-media.js';
 import { updateRoom } from './room.js';
 import { updateSky } from './sky.js';
@@ -6,6 +7,7 @@ import { RadioEngine } from './engine.js';
 
 const $ = id => document.getElementById(id);
 // 이벤트 데이터를 바꾸면 기존 저장 데이터와 섞이지 않도록 별도로 저장합니다.
+const radioColors = initRadioColors('last-radio-colors-v1:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/'));
 const key = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':' + JSON.stringify({events, collectibles});
 let saved;
 try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* 저장 없이도 플레이 가능 */ }
@@ -96,14 +98,17 @@ for (const name of ['settings', 'collection']) {
   });
   $('close-' + name).addEventListener('click', () => dialog.close());
   // Escape 또는 닫기 버튼으로 닫아도 해당 창의 정지만 해제합니다.
-  dialog.addEventListener('close', () => { engine.resume(name); persist(); render(); });
+  dialog.addEventListener('close', () => { if(name === 'settings') radioColors.restore(); engine.resume(name); persist(); render(); });
 }
 $('save-settings').addEventListener('click', () => {
   if (!$('cooldown').reportValidity()) return;
+  const colorResult = radioColors.save();
+  if (!colorResult.valid) return;
   engine.setCooldown(Number($('cooldown').value));
   engine.setSpeed(Number($('speed').value));
-  persist(); updateClock(); $('save-status').textContent = '설정을 적용했습니다. 창을 닫으면 수신이 재개됩니다.';
+  persist(); updateClock(); $('save-status').textContent = colorResult.saved ? '설정과 라디오 색상을 저장했습니다.' : '설정을 적용했지만 브라우저 저장 공간에 접근할 수 없어 색상이 유지되지 않습니다.';
 });
+$('reset-radio-colors').addEventListener('click', () => radioColors.reset());
 $('reset').addEventListener('click', () => {
   if (!confirm('기록, 해금, 천장 카운트, 수집품을 모두 지울까요?')) return;
   const speed = engine.state.speed;
