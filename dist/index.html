@@ -22,7 +22,9 @@
                 <linearGradient id="latte-cup-matte" x1="0" y1=".1" x2="1" y2=".4"><stop stop-color="#bab38d"/><stop offset=".45" stop-color="#a7a582"/><stop offset="1" stop-color="#667d76"/></linearGradient>
                 <linearGradient id="latte-blue-handle" x2=".7" y2="1"><stop stop-color="#94a8b8"/><stop offset=".45" stop-color="#708a9f"/><stop offset="1" stop-color="#3d596e"/></linearGradient>
                 <radialGradient id="latte-surface" cx=".42" cy=".35"><stop stop-color="#c5ad86"/><stop offset=".8" stop-color="#a58c64"/><stop offset="1" stop-color="#776e53"/></radialGradient>
-                <linearGradient id="latte-petal" x2=".6" y2="1"><stop stop-color="#e0c581"/><stop offset=".5" stop-color="#c6a55b"/><stop offset="1" stop-color="#8d8652"/></linearGradient>
+                <linearGradient id="latte-petal" x1=".15" y1="0" x2=".7" y2="1"><stop stop-color="#fff1b6"/><stop offset=".28" stop-color="#e9cc7b"/><stop offset=".65" stop-color="#cba956"/><stop offset="1" stop-color="#9c8346"/></linearGradient>
+                <radialGradient id="latte-flower-glow"><stop stop-color="#ffe7a0" stop-opacity=".38"/><stop offset=".42" stop-color="#e3bd65" stop-opacity=".16"/><stop offset="1" stop-color="#d7b46c" stop-opacity="0"/></radialGradient>
+                <radialGradient id="latte-flower-center" cx=".3" cy=".2"><stop stop-color="#fff4c8"/><stop offset=".45" stop-color="#e4c26a"/><stop offset="1" stop-color="#ad8a3f"/></radialGradient>
                 <linearGradient id="plant-pot" x2="1" y2="0"><stop stop-color="#a19a8a"/><stop offset=".45" stop-color="#7a8179"/><stop offset="1" stop-color="#4d5d60"/></linearGradient>
                 <linearGradient id="metal-shade" x2="1" y2="1"><stop stop-color="#a1b7b9"/><stop offset=".35" stop-color="#6f8e96"/><stop offset="1" stop-color="#344d5c"/></linearGradient>
                 <linearGradient id="glass-vase" x2="1" y2="0"><stop stop-color="#afdfdf" stop-opacity=".48"/><stop offset=".45" stop-color="#98c6c9" stop-opacity=".12"/><stop offset="1" stop-color="#527f8f" stop-opacity=".6"/></linearGradient>
@@ -106,7 +108,15 @@
                   <path d="M0 14 0 20" stroke="#e8ddbe" stroke-width="1.2" stroke-linecap="round"/>
                 </g>
                 <!-- 표면에 닿은 꽃잎, 접촉 그림자와 젖은 가장자리. -->
-                <g transform="translate(59 22) rotate(-12) scale(1 .58)">
+                <g id="gold-latte-blossom" transform="translate(59 22) rotate(-12) scale(1 .58)">
+                  <ellipse cx="0" cy="0" rx="19" ry="17" fill="url(#latte-flower-glow)"/>
+                  <g transform="translate(0 1.15)" fill="#8e793e" opacity=".7">
+                    <path d="M0 0C-5-2-7-8-3-11c4-2 8 3 6 7L0 0Z"/>
+                    <path d="M1 0C3-7 10-9 12-4c2 4-3 8-9 6L1 0Z"/>
+                    <path d="M2 1c7-2 12 2 9 6-3 3-9 0-10-4Z"/>
+                    <path d="M0 2c6 3 5 9 0 10-5 0-6-6-3-9Z"/>
+                    <path d="M-1 1c-5 5-11 3-10-2 1-4 7-4 10-2Z"/>
+                  </g>
                   <ellipse cx=".5" cy="2.5" rx="10" ry="7" fill="#6f6d4e" opacity=".28"/>
                   <g fill="url(#latte-petal)" stroke="#9d935e" stroke-width=".4">
                     <path d="M0 0C-5-2-7-8-3-11c4-2 8 3 6 7L0 0Z"/>
@@ -115,8 +125,9 @@
                     <path d="M0 2c6 3 5 9 0 10-5 0-6-6-3-9Z"/>
                     <path d="M-1 1c-5 5-11 3-10-2 1-4 7-4 10-2Z"/>
                   </g>
-                  <g fill="none" stroke="#e0c785" stroke-width=".65" opacity=".65"><path d="M0-1-2-8m4 8 6-4M2 3l5 2m-8-1 0 5m-3-8-5-1"/></g>
-                  <g fill="#ab9154"><circle cx="0" cy="1" r="2"/><circle cx="-1" cy="0" r=".7"/><circle cx="1" cy="-.5" r=".6"/></g>
+                  <g fill="none" stroke="#fff0b3" stroke-width=".85" opacity=".8" stroke-linecap="round"><path d="M-4-8q0-3 2-2m7 5q3-3 5-1m-1 9q2 2 0 3m-10 2q-3 1-3-1m-5-9q-2 0-2 2"/></g>
+                  <g fill="none" stroke="#f5d890" stroke-width=".7" opacity=".75"><path d="M0-1-2-8m4 8 6-4M2 3l5 2m-8-1 0 5m-3-8-5-1"/></g>
+                  <ellipse cx=".2" cy="1.3" rx="2.6" ry="2" fill="#8c7138" opacity=".55"/><circle cx="0" cy=".2" r="2.35" fill="url(#latte-flower-center)"/><circle cx="-.7" cy="-.7" r=".6" fill="#fff4c5" opacity=".9"/>
                   <path d="m-8 1 2 .7m11 5 2-1m-8 5 2-.5" stroke="#dbd0a8" stroke-width=".7" opacity=".7"/>
                 </g>
                 <path d="M19 63c12 6 30 7 42 0" fill="none" stroke="#9a946b" opacity=".55" stroke-width=".9"/>
