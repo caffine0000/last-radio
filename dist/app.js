@@ -1,3 +1,4 @@
+import { appendEventImage } from './event-media.js';
 import { updateRoom } from './room.js';
 import { updateSky } from './sky.js';
 import { settings, events, collectibles } from './events.js';
@@ -45,6 +46,7 @@ function render() {
   const message = $('message'); message.replaceChildren();
   message.append(node('div', active ? '⌁' : '· · ·', 'message-icon'));
   message.append(node('h2', active ? engine.event.title : ({idle:'청취 대기',waiting:'다음 방송을 기다립니다.',paused:'청취를 잠시 멈췄습니다.',finished:'오늘의 방송 종료'})[s.phase]));
+  if (active) appendEventImage(message, engine.event.image, engine.event.title);
   message.append(node('p', active ? engine.event.text : ({idle:'서류를 잠시 내려놓은 수사관의 사무실.\n창가의 라디오를 켜면 누군가의 이야기가 찾아옵니다.',waiting:'창문에는 빗방울이, 방 안에는 작은 잡음이.\n다음 이야기가 들려올 때까지 잠시 귀를 기울입니다.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
   const choices = $('choices'); choices.replaceChildren();
   if (active) engine.event.choices.forEach((choice, index) => {
