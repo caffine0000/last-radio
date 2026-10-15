@@ -1,0 +1,118 @@
+import { settings, events, collectibles } from './events.js';
+import { RadioEngine } from './engine.js';
+
+const $ = id => document.getElementById(id);
+// 이벤트 데이터를 바꾸면 기존 저장 데이터와 섞이지 않도록 별도로 저장합니다.
+const key = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':' + JSON.stringify({events, collectibles});
+let saved;
+try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* 저장 없이도 플레이 가능 */ }
+let engine;
+try { engine = new RadioEngine(events, settings.cooldownSeconds, saved, Date.now(), Math.random, collectibles); }
+catch (error) { $('message').textContent = error.message; $('power').disabled = true; throw error; }
+// 새로고침으로 확인창은 닫히므로 보존된 남은 시간부터 재개합니다.
+engine.resume('settings'); engine.resume('collection');
+function persist() {
+  try { localStorage.setItem(key, JSON.stringify(engine.state)); }
+  catch { $('save-status').textContent = '저장 공간에 접근할 수 없어 이번 플레이는 저장되지 않습니다.'; }
+}
+function node(tag, text, cls) {
+  const n = document.createElement(tag); n.textContent = text;
+  if (cls) n.className = cls;
+  return n;
+}
+function updateClock() {
+  const s = engine.state;
+  const ms = engine.remaining();
+  const seconds = Math.ceil(ms / 1000);
+  $('timer').textContent = s.phase === 'idle' ? format(Math.ceil(s.cooldown / s.speed)) : s.phase === 'choice' ? 'ON AIR' : s.phase === 'finished' ? '––:––' : format(seconds);
+  $('progress-fill').style.width = (s.phase === 'choice' || s.phase === 'finished' ? 100 : s.phase === 'idle' ? 0 : 100 * (1 - ms / Math.max(1, s.intervalTotal))) + '%';
+}
+function format(seconds) { return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`; }
+function render() {
+  const s = engine.state;
+  const active = s.phase === 'choice';
+  document.body.classList.toggle('receiving', active);
+  $('signal').textContent = ({idle:'전원 대기',waiting:'신호 탐색 중',paused:'수신 일시정지',choice:'방송 수신 중',finished:'수신 종료'})[s.phase];
+  $('phase-badge').textContent = ({idle:'STANDBY',waiting:'TUNING',paused:'PAUSED',choice:'ON AIR',finished:'END OF SIGNAL'})[s.phase];
+  $('frequency').textContent = active ? engine.event.frequency || '––.–' : '––.–';
+  $('channel').textContent = `${String(s.count).padStart(3, '0')} RECEIVED`;
+  $('power').textContent = ({idle:'수신 시작 ↗',waiting:'일시정지 Ⅱ',paused:'수신 재개 ↗',choice:'방송 수신 중',finished:'수신 완료'})[s.phase];
+  $('power').disabled = active || s.phase === 'finished';
+  $('timer-note').textContent = ({idle:'전원을 켜면 첫 번째 방송을 기다립니다.',waiting:'다음 신호를 기다리고 있습니다.',paused:'남은 시간이 보존됩니다.',choice:'행동을 선택하면 다음 수신이 시작됩니다.',finished:'현재 등장 가능한 방송이 없습니다.'})[s.phase];
+  const message = $('message'); message.replaceChildren();
+  message.append(node('div', active ? '⌁' : '· · ·', 'message-icon'));
+  message.append(node('h2', active ? engine.event.title : ({idle:'주파수 너머, 누군가.',waiting:'다음 방송을 기다립니다.',paused:'잠시 멈춘 주파수.',finished:'마지막 신호가 끊어졌습니다.'})[s.phase]));
+  message.append(node('p', active ? engine.event.text : ({idle:'수신을 시작하면 잠시 후 방송이 도착합니다.\n목소리에 귀를 기울이고, 당신의 행동을 선택하세요.',waiting:'아직은 희미한 잡음뿐입니다.\n새로운 신호가 잡히면 이곳에 방송이 표시됩니다.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
+  const choices = $('choices'); choices.replaceChildren();
+  if (active) engine.event.choices.forEach((choice, index) => {
+    const button = node('button', '', 'choice');
+    button.append(node('b', String(index + 1).padStart(2, '0')), node('span', choice.text), node('span', '↗', 'arrow'));
+    button.addEventListener('click', () => {
+      if (!engine.choose(index)) return;
+      persist(); render();
+    });
+    choices.append(button);
+  });
+  $('log-count').textContent = String(s.history.length).padStart(2, '0');
+  const history = $('history'); history.replaceChildren();
+  if (!s.history.length) history.append(node('p', '아직 수신 기록이 없습니다. 첫 번째 방송을 기다려 주세요.', 'empty-log'));
+  for (const entry of s.history) {
+    const row = node('article', '', 'log-row');
+    const time = node('time', new Date(entry.at).toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit',hour12:false}));
+    time.dateTime = new Date(entry.at).toISOString();
+    const content = node('div', '');
+    content.append(node('h3', entry.title), node('p', '↳ ' + entry.choice, 'chosen'), node('p', entry.result));
+    if (entry.gained?.length) content.append(node('p', '수집품 획득: ' + entry.gained.map(id => collectibles.find(item => item.id === id)?.name || id).join(', '), 'chosen'));
+    row.append(time, content); history.append(row);
+  }
+  $('collection-count').textContent = `${s.inventory.length} / ${collectibles.length}`;
+  const list = $('collection-list'); list.replaceChildren();
+  if (!collectibles.length) list.append(node('p', '등록된 수집품이 없습니다.'));
+  for (const item of collectibles) {
+    const owned = s.inventory.includes(item.id);
+    const card = node('article', '', 'collection-card');
+    card.append(node('h3', owned ? item.name : '미발견 수집품'), node('p', owned ? item.description : '방송에서 행동을 선택하여 발견하세요.'));
+    list.append(card);
+  }
+  updateClock();
+}
+$('cooldown').value = engine.state.cooldown;
+$('speed').value = engine.state.speed;
+$('power').addEventListener('click', () => {
+  if (engine.state.phase === 'idle') engine.start();
+  else engine.togglePause();
+  persist(); render();
+});
+for (const name of ['settings', 'collection']) {
+  const dialog = $(name + '-dialog');
+  $('open-' + name).addEventListener('click', () => {
+    engine.pause(name);
+    persist(); render(); dialog.showModal();
+  });
+  $('close-' + name).addEventListener('click', () => dialog.close());
+  // Escape 또는 닫기 버튼으로 닫아도 해당 창의 정지만 해제합니다.
+  dialog.addEventListener('close', () => { engine.resume(name); persist(); render(); });
+}
+$('save-settings').addEventListener('click', () => {
+  if (!$('cooldown').reportValidity()) return;
+  engine.setCooldown(Number($('cooldown').value));
+  engine.setSpeed(Number($('speed').value));
+  persist(); updateClock(); $('save-status').textContent = '설정을 적용했습니다. 창을 닫으면 수신이 재개됩니다.';
+});
+$('reset').addEventListener('click', () => {
+  if (!confirm('기록, 해금, 천장 카운트, 수집품을 모두 지울까요?')) return;
+  const speed = engine.state.speed;
+  engine = new RadioEngine(events, engine.state.cooldown, null, Date.now(), Math.random, collectibles);
+  engine.setSpeed(speed);
+  engine.pause('settings');
+  persist(); render();
+  $('save-status').textContent = '진행을 초기화했습니다. 설정을 닫고 수신을 시작하세요.';
+});
+setInterval(() => {
+  if (engine.tick()) { persist(); render(); }
+  else updateClock();
+}, 200);
+document.addEventListener('visibilitychange', () => {
+  if (engine.tick()) { persist(); render(); } else updateClock();
+});
+persist(); render();
