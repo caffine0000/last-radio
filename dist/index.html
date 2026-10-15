@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#161b18"><meta name="description" content="정적 속에서 도착하는 방송. 듣고, 선택하고, 다음 신호를 기다리세요.">
+  <title>종말 라디오</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <header><a class="brand" href="./">LAST FREQUENCY <span>수신소 001</span></a><span class="local">LOCAL TRANSMISSION</span></header>
+    <main>
+      <div class="intro"><p class="eyebrow">끝나지 않은 세계의 마지막 주파수</p><h1>종말 라디오<span class="title-dot">.</span></h1><p>잡음 너머의 목소리를 듣고, 당신의 다음 행동을 선택하세요.</p></div>
+      <div class="layout">
+        <section class="receiver" aria-label="라디오 수신기">
+          <div class="hardware-label"><span>PORTABLE RECEIVER / R-01</span><span class="screw">⊕</span></div>
+          <div class="display"><div class="display-top"><span><i id="lamp"></i> <span id="signal">전원 대기</span></span><span>FM</span></div><div class="frequency"><span id="frequency">––.–</span><small>MHz</small></div><div class="dial"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div><div class="dial-line"></div><div class="wave" aria-hidden="true"></div><div class="display-bottom"><span>수신 채널</span><span id="channel">000 / 003</span></div></div>
+          <div class="speaker" aria-hidden="true"></div>
+          <div class="controls"><div><span class="tiny">NEXT TRANSMISSION</span><div class="timer" id="timer">00:15</div></div><button id="power" class="power">수신 시작 <span>↗</span></button></div>
+          <div class="progress"><div id="progress-fill"></div></div>
+          <p id="timer-note" class="hardware-note">전원을 켜면 첫 번째 방송을 기다립니다.</p>
+        </section>
+        <section class="transmission" aria-label="방송과 선택지">
+          <div class="section-top"><span class="eyebrow">INCOMING MESSAGE</span><span id="phase-badge" class="badge">STANDBY</span></div>
+          <div id="message" aria-live="polite" aria-atomic="true"></div>
+          <div id="choices" class="choices"></div>
+          <div class="footnote"><span class="small-dot"></span><span>방송이 도착하면 선택할 때까지 기다립니다.</span></div>
+        </section>
+      </div>
+      <section class="log-section"><div class="log-title"><h2>수신 기록 <span id="log-count">00</span></h2><span>TRANSMISSION LOG</span></div><div id="history"></div></section>
+      <nav class="panel-actions" aria-label="게임 메뉴"><button id="open-collection">수집품 <span id="collection-count">0</span></button><button id="open-settings">수신 설정</button></nav>
+      <dialog id="settings-dialog" aria-labelledby="settings-heading">
+        <div class="dialog-top"><h2 id="settings-heading">수신 설정</h2><button id="close-settings" aria-label="설정 닫기">닫기 ×</button></div>
+        <p class="dialog-note">설정 중에는 라디오 쿨타임이 정지합니다.</p>
+        <div class="settings-body"><label for="cooldown">다음 방송 기본 간격 (초)</label><input id="cooldown" type="number" min="1" max="3600" step="1" aria-describedby="cooldown-help">
+        <p id="cooldown-help">1–3,600초. 간격 변경은 다음 대기부터 적용됩니다.</p>
+        <label for="speed">라디오 쿨타임 배속</label><select id="speed"><option value="0.5">0.5배</option><option value="1">1배</option><option value="2">2배</option><option value="4">4배</option><option value="8">8배</option></select>
+        <p>배속은 남아 있는 대기 시간에도 즉시 반영됩니다.</p><button id="save-settings">설정 적용</button><p id="save-status" role="status"></p>
+        <hr><p>기록, 해금, 천장 카운트, 수집품을 모두 초기화합니다.</p><button id="reset" class="reset">진행 리셋</button></div>
+      </dialog>
+      <dialog id="collection-dialog" aria-labelledby="collection-heading"><div class="dialog-top"><h2 id="collection-heading">수집품</h2><button id="close-collection" aria-label="수집품 창 닫기">닫기 ×</button></div><p class="dialog-note">확인 중에는 라디오 쿨타임이 정지합니다.</p><div id="collection-list"></div></dialog>
+    </main>
+    <footer><span>종말 라디오 © 2026</span><span>아직, 누군가는 듣고 있다.</span></footer>
+  </div>
+  <noscript>이 게임을 실행하려면 브라우저에서 JavaScript를 켜주세요.</noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
