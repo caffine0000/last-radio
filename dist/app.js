@@ -43,7 +43,7 @@ function render() {
   const message = $('message'); message.replaceChildren();
   message.append(node('div', active ? '⌁' : '· · ·', 'message-icon'));
   message.append(node('h2', active ? engine.event.title : ({idle:'창가에 앉아, 잠시.',waiting:'비 오는 날의 막간.',paused:'잠깐 쉬어 가도 괜찮아.',finished:'오늘도 들어줘서 고마워.'})[s.phase]));
-  message.append(node('p', active ? engine.event.text : ({idle:'폐허가 된 신구획 단지의 작은 방송국.\n라디오를 켜면 누군가의 이야기가 찾아옵니다.',waiting:'창문에는 빗방울이, 방 안에는 작은 잡음이.\n다음 이야기가 들려오면 함께 귀 기울여요.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
+  message.append(node('p', active ? engine.event.text : ({idle:'서류를 잠시 내려놓은 수사관의 사무실.\n창가의 라디오를 켜면 누군가의 이야기가 찾아옵니다.',waiting:'창문에는 빗방울이, 방 안에는 작은 잡음이.\n다음 이야기가 들려올 때까지 잠시 귀를 기울입니다.',paused:'준비가 되면 수신을 재개하세요.',finished:'더 이상 등장 가능한 방송이 없습니다.\n처음부터 들으려면 수신 설정에서 진행을 초기화하세요.'})[s.phase]));
   const choices = $('choices'); choices.replaceChildren();
   if (active) engine.event.choices.forEach((choice, index) => {
     const button = node('button', '', 'choice');
