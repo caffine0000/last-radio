@@ -23,12 +23,15 @@ jobs:
         with:
           node-version: '24'
       - name: Test game rules
-        run: node tests/engine.test.js
+        run: |
+          node tests/engine.test.js
+          node tests/sky.test.js
       - name: Check JavaScript syntax
         run: |
           node --check dist/app.js
           node --check dist/engine.js
           node --check dist/events.js
+          node --check dist/sky.js
       - name: Verify Pages assets and repository subpath support
         run: node scripts/check-pages.mjs
 
