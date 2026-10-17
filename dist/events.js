@@ -1,49 +1,20 @@
-// 문구는 임시 예시입니다. id는 저장·연계에 사용하므로 고유하게 유지하세요.
+// 실제 방송 콘텐츠입니다. 이벤트 id는 저장·연계에 사용합니다.
 export const settings = { cooldownSeconds: 15 };
 export const collectibles = [
   { id: 'item-01', name: '[수집품 이름]', description: '[수집품 설명]' },
 ];
 export const events = [
   {
-    // availability: { dates: ['2026-12-25'], timeRanges: [{ start: '18:00', end: '23:00' }] },
-    id: 'broadcast-01', weight: 10, // 기본 조우 가중치. 반복 등장 가능.
-    // image: { src: 'images/event-01.webp', alt: '방송 장면 설명', fit: 'contain', caption: '이미지 설명' },
-    frequency: '89.1', title: '일반 방송', text: '[방송 내용 입력]',
-    choices: [
-      { id: 'accept', text: '[수집 및 연계를 시작하는 행동]', result: '[선택 결과 입력]',
-        grantItems: ['item-01'], startPity: ['broadcast-03'] },
-      // 특정 행동에 disableEvent: true를 추가하면 선택 이후 이 이벤트는 다시 등장하지 않습니다.
-      { id: 'leave', text: '[다른 행동 입력]', result: '[선택 결과 입력]' },
-    ],
-  },
-  {
-    id: 'broadcast-02', weight: 3, once: true,
-    // 이 이벤트 완료 전에는 후속 방송의 유효 가중치가 0입니다.
-    requires: { events: ['broadcast-01'] },
-    pity: { start: 'gameStart', count: 4 },
-    frequency: '104.7', title: '선행 방송 완료 후 등장', text: '[연계 방송 내용 입력]',
-    choices: [
-      { id: 'accept', text: '[선택지 1 입력]', result: '[선택 결과 1 입력]' },
-      { id: 'leave', text: '[선택지 2 입력]', result: '[선택 결과 2 입력]' },
-    ],
-  },
-  {
-    id: 'broadcast-03', weight: 1, once: true,
-    // 특정 행동을 완료해야 해금됩니다. 트리거 선택 후 천장 2회가 시작됩니다.
-    requires: { choices: ['broadcast-01:accept'] },
-    pity: { start: 'trigger', count: 2 },
-    frequency: '93.5', title: '특정 행동에서 이어지는 방송', text: '[연계 방송 내용 입력]',
-    choices: [
-      { id: 'accept', text: '[선택지 1 입력]', result: '[선택 결과 1 입력]' },
-      { id: 'leave', text: '[선택지 2 입력]', result: '[선택 결과 2 입력]' },
-    ],
-  },
+    "id": "opening",
+    "type": "observation",
+    "title": "오프닝",
+    "weight": 100,
+    "once": true,
+    "mustSeeFirst": true,
+    "continueText": "라디오의 오프닝에 귀를 기울인다",
+    "text": "라디오가 치직이며 흥겨운 음악이 나온다.\n\n' 𝅘𝅥𝅮아르카디아의 끝까지 가는 방송 𝅘𝅥𝅮\n 𝅘𝅥𝅮팰리스의 종말 라디오 FM 𝅘𝅥𝅮'\n\n\"오늘도 마지막 날까지~ 전해드리는 ｢종말 라디오｣의 진행자 '팰리스'입니다~!\"",
+    "onComplete": {
+      "result": "오프닝을 들었다."
+    }
+  }
 ];
-
-// 비선택형 이벤트 예시: events 배열 안에 추가하세요.
-// {
-//   id: 'quiet-broadcast', type: 'observation', weight: 3,
-//   title: '잠깐의 음악', text: '라디오에서 조용한 음악이 흘러나온다.',
-//   // image: { src: 'images/music.webp', alt: '방송 장면' },
-//   onComplete: { result: '음악을 끝까지 들었다.' },
-// }
