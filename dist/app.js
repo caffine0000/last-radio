@@ -47,7 +47,7 @@ function render() {
   $('channel').textContent = `${String(s.count).padStart(3, '0')} RECEIVED`;
   $('power').textContent = ({idle:'라디오 켜기 ↗',waiting:'잠깐 쉬기 Ⅱ',paused:'다시 듣기 ↗',choice:'방송이 왔어요 ♪',observation:s.pauseReasons.includes('manual') ? '다시 듣기 ↗' : '잠깐 쉬기 Ⅱ',finished:'방송 종료'})[s.phase];
   $('power').disabled = s.phase === 'choice' || s.phase === 'finished';
-  $('timer-note').textContent = ({idle:'전원을 켜면 첫 번째 방송을 기다립니다.',waiting:'다음 신호를 기다리고 있습니다.',paused:'남은 시간이 보존됩니다.',choice:'행동을 선택하면 다음 수신이 시작됩니다.',observation:'10초 동안 관람하거나 계속 듣기를 누르면 진행됩니다.',finished:'현재 등장 가능한 방송이 없습니다.'})[s.phase];
+  $('timer-note').textContent = ({idle:'전원을 켜면 첫 번째 방송을 기다립니다.',waiting:'다음 신호를 기다리고 있습니다.',paused:'남은 시간이 보존됩니다.',choice:'행동을 선택하면 다음 수신이 시작됩니다.',observation:'10초 동안 관람하거나 아래 버튼을 누르면 진행됩니다.',finished:'현재 등장 가능한 방송이 없습니다.'})[s.phase];
   const message = $('message'); message.replaceChildren();
   message.append(node('div', active ? '⌁' : '· · ·', 'message-icon'));
   message.append(node('h2', active ? engine.event.title : ({idle:'청취 대기',waiting:'다음 방송을 기다립니다.',paused:'청취를 잠시 멈췄습니다.',finished:'오늘의 방송 종료'})[s.phase]));
@@ -71,7 +71,7 @@ function render() {
     const note = node('p', '', 'observation-note');
     note.append(node('span', '선택 없이 듣는 방송 · '));
     const countdown = node('span', ''); countdown.id = 'observation-countdown'; note.append(countdown);
-    const button = node('button', '계속 듣기 →', 'choice observation-continue');
+    const button = node('button', engine.event.continueText || '계속 듣기 →', 'choice observation-continue');
     button.disabled = s.pauseReasons.length > 0;
     button.addEventListener('click', () => { if (engine.completeObservation()) { persist(); render(); } });
     choices.append(note, button);
