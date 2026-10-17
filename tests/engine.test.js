@@ -93,7 +93,7 @@ test('저장 복원: 일반 대기 만료는 방송 하나만, 확인창 정지�
   assert.equal(paused.remaining(),600);paused.resume('collection',999999);assert.equal(paused.state.deadline,1000599);
 });
 test('실제 이벤트 정의와 유효하지 않은 저장 검사', () => {
-  const g=new RadioEngine(events,15,null,0,()=>0,collectibles);assert.equal(g.state.pity['broadcast-02'].remaining,4);
+  const g=new RadioEngine(events,15,null,0,()=>0,collectibles);assert.equal(g.state.phase,'idle');assert.deepEqual(g.probabilities(0).map(p=>p.id),['opening']);
   assert.equal(new RadioEngine(events,15,{version:1},0,()=>0,collectibles).state.phase,'idle');
   assert.throws(()=>game([event('a',{choices:[{...choice,grantItems:['missing']}]})]));
 });
