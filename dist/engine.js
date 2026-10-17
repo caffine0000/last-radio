@@ -9,6 +9,8 @@ export function validateEvents(events, collectibles = []) {
   if (ids.size !== events.length) throw new Error('이벤트 id가 중복되었습니다.');
   for (const e of events) {
     const observation = e.type === 'observation';
+    if (e.mustSeeFirst !== undefined && typeof e.mustSeeFirst !== 'boolean') throw new Error(`${e.id}: mustSeeFirst는 true 또는 false여야 합니다.`);
+    if (e.continueText !== undefined && (!observation || typeof e.continueText !== 'string' || !e.continueText.trim())) throw new Error(`${e.id}: 관람 진행 버튼 문구를 확인하세요.`);
     if (e.type !== undefined && !['choice','observation'].includes(e.type)) throw new Error(`${e.id}: 이벤트 type을 확인하세요.`);
     eventImage(e.image, e.title);
     try { validateAvailability(e.availability); } catch (error) { throw new Error(`${e.id}: ${error.message}`); }
@@ -76,6 +78,9 @@ export class RadioEngine {
   eligible(e, now = Date.now()) { return this.baseEligible(e) && matchesAvailability(e.availability, now); }
   candidates(now = Date.now()) {
     const available = this.events.filter(e => this.eligible(e, now) && e.weight > 0);
+    // 아직 완료하지 않은 필수 첫 방송은 일반 추첨과 천장보다 먼저 표시합니다.
+    const first = available.filter(e => e.mustSeeFirst && !this.state.completedEvents.includes(e.id));
+    if (first.length) return {events:first, forced:true};
     const due = available.filter(e => this.state.pity[e.id]?.remaining === 0 && !this.state.pity[e.id].fired);
     return { events: due.length ? due : available, forced: due.length > 0 };
   }
