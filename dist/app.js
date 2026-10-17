@@ -1,3 +1,4 @@
+import { historyDescription, eventsForStorage } from './event-log.js';
 import { initRadioColors } from './radio-colors.js';
 import { appendEventImage } from './event-media.js';
 import { updateRoom } from './room.js';
@@ -8,7 +9,7 @@ import { RadioEngine } from './engine.js';
 const $ = id => document.getElementById(id);
 // 이벤트 데이터를 바꾸면 기존 저장 데이터와 섞이지 않도록 별도로 저장합니다.
 const radioColors = initRadioColors('last-radio-colors-v1:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/'));
-const key = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':' + JSON.stringify({events, collectibles});
+const key = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':' + JSON.stringify({events:eventsForStorage(events), collectibles});
 let saved;
 try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* 저장 없이도 플레이 가능 */ }
 let engine;
@@ -41,7 +42,8 @@ function render() {
   const observation = s.phase === 'observation';
   const active = s.phase === 'choice' || observation;
   document.body.classList.toggle('receiving', active);
-  $('signal').textContent = ({idle:'방송을 기다리며',waiting:'다음 목소리를 기다려요',paused:'잠시 쉬어 가는 중',choice:'누군가 말을 걸어왔어요',observation:'방송을 듣고 있습니다',finished:'오늘의 방송을 마치며'})[s.phase];
+  $('signal').textContent = ({idle:'방송을 기다리며',waiting:'방송 대기중',paused:'재생 중지',choice:'누군가 말을 걸어왔어요',observation:'방송을 듣고 있습니다',finished:'오늘의 방송을 마치며'})[s.phase];
+  if (observation && s.pauseReasons.length) $('signal').textContent = '재생 중지';
   $('phase-badge').textContent = ({idle:'STANDBY',waiting:'TUNING',paused:'PAUSED',choice:'ON AIR',observation:'LISTENING',finished:'END OF SIGNAL'})[s.phase];
   $('frequency').textContent = active ? engine.event.frequency || '––.–' : '––.–';
   $('channel').textContent = `${String(s.count).padStart(3, '0')} RECEIVED`;
@@ -84,7 +86,7 @@ function render() {
     const time = node('time', new Date(entry.at).toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit',hour12:false}));
     time.dateTime = new Date(entry.at).toISOString();
     const content = node('div', '');
-    content.append(node('h3', entry.title), node('p', '↳ ' + entry.choice, 'chosen'), node('p', entry.result));
+    content.append(node('h3', entry.title), node('p', '↳ ' + entry.choice, 'chosen'), node('p', historyDescription(entry, events)));
     if (entry.gained?.length) content.append(node('p', '수집품 획득: ' + entry.gained.map(id => collectibles.find(item => item.id === id)?.name || id).join(', '), 'chosen'));
     row.append(time, content); history.append(row);
   }
