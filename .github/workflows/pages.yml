@@ -31,6 +31,7 @@ jobs:
           node tests/colors.test.js
           node tests/schedule.test.js
           node tests/observation.test.js
+          node tests/opening.test.js
       - name: Check JavaScript syntax
         run: |
           node --check dist/app.js
