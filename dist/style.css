@@ -22,6 +22,7 @@
 
 .observation-note{font-size:11px;color:var(--muted);margin:0 0 3px}.observation-continue{justify-content:center;color:#bdd8d6}.observation-continue:disabled{opacity:.5;cursor:default}
 
-.latte-steam{pointer-events:none}.steam-wisp{stroke-width:2;opacity:.32;animation:latte-steam-rise 5.8s ease-out infinite}.steam-second{animation-delay:-2s;stroke-width:1.7}.steam-third{animation-delay:-4s;stroke-width:1.4}
-@keyframes latte-steam-rise{0%{opacity:0;transform:translate(0,7px)}22%{opacity:.42}70%{opacity:.2;transform:translate(2px,-10px)}100%{opacity:0;transform:translate(-1px,-22px)}}
-@media(prefers-reduced-motion:reduce){.steam-wisp{animation:none!important;opacity:.22}}
+.latte-steam{pointer-events:none}.steam-surface{animation:latte-steam-wave 6s ease-in-out infinite;transform-origin:40px 15px}.steam-second{animation-name:latte-steam-wave-second;animation-duration:7.5s;animation-delay:-3s;opacity:.72}
+@keyframes latte-steam-wave{0%,100%{d:path("M21 15C9-9 36-13 24-34C16-47 21-57 28-65L40-65C29-49 31-44 38-32C51-10 26-5 35 15Z");transform:skewX(-2deg)}50%{d:path("M21 15C34-7 12-16 25-35C35-48 31-58 25-65L38-65C45-49 45-43 38-32C25-12 49-3 35 15Z");transform:skewX(2deg)}}
+@keyframes latte-steam-wave-second{0%,100%{d:path("M43 15C57-6 34-15 46-34C55-47 49-57 44-65L57-65C64-48 63-43 57-31C48-12 68-4 57 15Z");transform:skewX(2deg)}50%{d:path("M43 15C31-7 58-14 45-34C37-47 42-58 48-65L61-65C50-49 52-44 59-31C72-11 48-3 57 15Z");transform:skewX(-2deg)}}
+@media(prefers-reduced-motion:reduce){.steam-surface{animation:none!important;opacity:.65}.steam-second{opacity:.45}}
