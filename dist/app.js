@@ -86,7 +86,7 @@ function render() {
     const time = node('time', new Date(entry.at).toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit',hour12:false}));
     time.dateTime = new Date(entry.at).toISOString();
     const content = node('div', '');
-    content.append(node('h3', entry.title), node('p', '↳ ' + entry.choice, 'chosen'), node('p', historyDescription(entry, events)));
+    content.append(node('h3', entry.title), node('p', '↳ ' + (entry.choice === '관람 완료' ? '감상 완료' : entry.choice), 'chosen'), node('p', historyDescription(entry, events)));
     if (entry.gained?.length) content.append(node('p', '수집품 획득: ' + entry.gained.map(id => collectibles.find(item => item.id === id)?.name || id).join(', '), 'chosen'));
     row.append(time, content); history.append(row);
   }
