@@ -1,3 +1,4 @@
+import { validateAvailability, matchesAvailability } from './schedule.js';
 import { eventImage } from './event-media.js';
 export function validateEvents(events, collectibles = []) {
   if (!Array.isArray(events) || !events.length) throw new Error('이벤트를 하나 이상 등록하세요.');
@@ -8,12 +9,14 @@ export function validateEvents(events, collectibles = []) {
   if (ids.size !== events.length) throw new Error('이벤트 id가 중복되었습니다.');
   for (const e of events) {
     eventImage(e.image, e.title);
+    try { validateAvailability(e.availability); } catch (error) { throw new Error(`${e.id}: ${error.message}`); }
     if (!e.id || typeof e.title !== 'string' || typeof e.text !== 'string' || !Number.isFinite(e.weight) || e.weight < 0 || !Array.isArray(e.choices) || !e.choices.length) throw new Error(`${e.id}: 이벤트 형식을 확인하세요.`);
     if (e.pity && (!Number.isInteger(e.pity.count) || e.pity.count < 0 || !['gameStart', 'trigger'].includes(e.pity.start))) throw new Error(`${e.id}: 천장 설정을 확인하세요.`);
     if ((e.requires?.events || []).some(id => !ids.has(id)) || (e.requires?.choices || []).some(id => !choices.has(id))) throw new Error(`${e.id}: 선행 조건 id를 확인하세요.`);
     const seen = new Set();
     for (const c of e.choices) {
       if (!c.id || seen.has(c.id) || typeof c.text !== 'string' || typeof c.result !== 'string') throw new Error(`${e.id}: 행동 id와 문구를 확인하세요.`);
+      if (c.disableEvent !== undefined && typeof c.disableEvent !== 'boolean') throw new Error(`${e.id}: disableEvent는 true 또는 false여야 합니다.`);
       seen.add(c.id);
       if ((c.grantItems || []).some(id => !items.has(id))) throw new Error(`${e.id}: 수집품 id를 확인하세요.`);
       if ((c.startPity || []).some(id => !events.find(event => event.id === id)?.pity)) throw new Error(`${e.id}: 천장 대상 id를 확인하세요.`);
@@ -28,7 +31,7 @@ export class RadioEngine {
     this.collectibles = collectibles;
     this.random = random;
     this.state = this.validSave(saved) ? structuredClone(saved) : {
-      version: 2, phase: 'idle', eventId: null, count: 0, forced: false,
+      version: 2, phase: 'idle', eventId: null, count: 0, forced: false, waitingForSchedule: false,
       deadline: null, remaining: 0, intervalTotal: 0, pauseReasons: [],
       cooldown: this.validSeconds(seconds), speed: 1, history: [],
       completedEvents: [], completedChoices: [], inventory: [], pity: {},
@@ -53,25 +56,32 @@ export class RadioEngine {
     return s.pity && typeof s.pity === 'object' && !Array.isArray(s.pity) && Object.entries(s.pity).every(([id,p]) => this.events.some(e => e.id === id && e.pity) && p && Number.isInteger(p.remaining) && p.remaining >= 0 && typeof p.fired === 'boolean');
   }
   get event() { return this.events.find(e => e.id === this.state.eventId); }
-  eligible(e) {
+  baseEligible(e) {
     const s = this.state;
     return !(e.once && s.completedEvents.includes(e.id)) &&
+      !e.choices.some(c => c.disableEvent && s.completedChoices.includes(`${e.id}:${c.id}`)) &&
       (e.requires?.events || []).every(id => s.completedEvents.includes(id)) &&
       (e.requires?.choices || []).every(id => s.completedChoices.includes(id));
   }
-  candidates() {
-    const available = this.events.filter(e => this.eligible(e) && e.weight > 0);
+  eligible(e, now = Date.now()) { return this.baseEligible(e) && matchesAvailability(e.availability, now); }
+  candidates(now = Date.now()) {
+    const available = this.events.filter(e => this.eligible(e, now) && e.weight > 0);
     const due = available.filter(e => this.state.pity[e.id]?.remaining === 0 && !this.state.pity[e.id].fired);
     return { events: due.length ? due : available, forced: due.length > 0 };
   }
-  probabilities() {
-    const {events, forced} = this.candidates();
+  probabilities(now = Date.now()) {
+    const {events, forced} = this.candidates(now);
     const total = events.reduce((sum, e) => sum + e.weight, 0);
     return events.map(e => ({id:e.id, probability:e.weight / total, forced}));
   }
-  draw() {
-    const pool = this.candidates();
-    if (!pool.events.length) { this.state.phase = 'finished'; this.state.deadline = null; return; }
+  draw(now = Date.now()) {
+    const pool = this.candidates(now);
+    if (!pool.events.length) {
+      if (this.events.some(e => this.baseEligible(e) && e.weight > 0)) this.wait(now, true);
+      else { this.state.phase = 'finished'; this.state.deadline = null; this.state.waitingForSchedule = false; }
+      return;
+    }
+    this.state.waitingForSchedule = false;
     let roll = this.random() * pool.events.reduce((sum,e) => sum + e.weight, 0);
     let event = pool.events.at(-1);
     for (const e of pool.events) { roll -= e.weight; if (roll < 0) { event = e; break; } }
@@ -93,8 +103,9 @@ export class RadioEngine {
     if (!event?.pity || this.state.pity[id]) return;
     this.state.pity[id] = {remaining:event.pity.count, fired:false};
   }
-  wait(now) {
+  wait(now, waitingForSchedule = false) {
     const s = this.state;
+    s.waitingForSchedule = waitingForSchedule;
     s.remaining = s.cooldown * 1000 / s.speed;
     s.intervalTotal = s.remaining;
     s.phase = s.pauseReasons.length ? 'paused' : 'waiting';
@@ -102,7 +113,7 @@ export class RadioEngine {
   }
   start(now = Date.now()) { if (this.state.phase === 'idle') this.wait(now); }
   tick(now = Date.now()) {
-    if (this.state.phase === 'waiting' && now >= this.state.deadline) { this.draw(); return true; }
+    if (this.state.phase === 'waiting' && now >= this.state.deadline) { this.draw(now); return true; }
     return false;
   }
   choose(index, now = Date.now()) {
@@ -116,8 +127,8 @@ export class RadioEngine {
     s.history.unshift({title:e.title, choice:c.text, result:c.result, at:now, gained, forced:s.forced});
     s.history = s.history.slice(0, 200);
     s.eventId = null;
-    if (!this.candidates().events.length) { s.phase = 'finished'; s.deadline = null; }
-    else this.wait(now);
+    if (!this.events.some(event => this.baseEligible(event) && event.weight > 0)) { s.phase = 'finished'; s.deadline = null; s.waitingForSchedule = false; }
+    else this.wait(now, !this.candidates(now).events.length);
     return true;
   }
   pause(reason, now = Date.now()) {
