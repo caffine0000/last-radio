@@ -8,6 +8,7 @@ export const events = [
     "id": "opening",
     "type": "observation",
     "title": "오프닝",
+    "image": { "src": "images/opening.svg", "alt": "별과 달이 장식된 무대에서 마이크 앞에 앉아 방송하는 검은 고양이", "fit": "contain" },
     "weight": 100,
     "once": true,
     "mustSeeFirst": true,
