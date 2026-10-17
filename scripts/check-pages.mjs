@@ -6,7 +6,7 @@ import { resolve, sep } from 'node:path';
 const root = resolve('dist');
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
 const refs = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m => m[1]);
-const modules = ['app.js', 'engine.js', 'events.js', 'sky.js', 'room.js', 'room-config.js', 'event-media.js', 'radio-colors.js'];
+const modules = ['app.js', 'engine.js', 'events.js', 'sky.js', 'room.js', 'room-config.js', 'event-media.js', 'radio-colors.js', 'schedule.js'];
 for (const file of modules) {
   const source = await readFile(resolve(root, file), 'utf8');
   for (const match of source.matchAll(/(?:from\s*|import\s*)['"]([^'"]+)['"]/g)) {
