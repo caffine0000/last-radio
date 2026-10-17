@@ -9,6 +9,7 @@ export function validateEvents(events, collectibles = []) {
   if (ids.size !== events.length) throw new Error('이벤트 id가 중복되었습니다.');
   for (const e of events) {
     const observation = e.type === 'observation';
+    if (e.logDescription !== undefined && typeof e.logDescription !== 'string') throw new Error(`${e.id}: logDescription은 문자열이어야 합니다.`);
     if (e.mustSeeFirst !== undefined && typeof e.mustSeeFirst !== 'boolean') throw new Error(`${e.id}: mustSeeFirst는 true 또는 false여야 합니다.`);
     if (e.continueText !== undefined && (!observation || typeof e.continueText !== 'string' || !e.continueText.trim())) throw new Error(`${e.id}: 관람 진행 버튼 문구를 확인하세요.`);
     if (e.type !== undefined && !['choice','observation'].includes(e.type)) throw new Error(`${e.id}: 이벤트 type을 확인하세요.`);
@@ -154,7 +155,7 @@ export class RadioEngine {
     const gained = [...new Set(c.grantItems || [])].filter(id => !s.inventory.includes(id));
     s.inventory.push(...gained);
     for (const id of c.startPity || []) this.startPity(id);
-    s.history.unshift({title:e.title, choice:label, result:c.result ?? '방송을 끝까지 들었다.', at:now, gained, forced:s.forced});
+    s.history.unshift({eventId:e.id, title:e.title, choice:label, result:c.result ?? '방송을 끝까지 들었다.', description:e.logDescription ?? c.result ?? '방송을 끝까지 들었다.', at:now, gained, forced:s.forced});
     s.history = s.history.slice(0, 200);
     s.eventId = null;
     if (!this.events.some(event => this.baseEligible(event) && event.weight > 0)) { s.phase = 'finished'; s.deadline = null; s.waitingForSchedule = false; }
