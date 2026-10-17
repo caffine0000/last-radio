@@ -39,3 +39,11 @@ export const events = [
     ],
   },
 ];
+
+// 비선택형 이벤트 예시: events 배열 안에 추가하세요.
+// {
+//   id: 'quiet-broadcast', type: 'observation', weight: 3,
+//   title: '잠깐의 음악', text: '라디오에서 조용한 음악이 흘러나온다.',
+//   // image: { src: 'images/music.webp', alt: '방송 장면' },
+//   onComplete: { result: '음악을 끝까지 들었다.' },
+// }
