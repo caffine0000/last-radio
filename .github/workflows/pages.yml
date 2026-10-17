@@ -29,6 +29,7 @@ jobs:
           node tests/room.test.js
           node tests/media.test.js
           node tests/colors.test.js
+          node tests/schedule.test.js
       - name: Check JavaScript syntax
         run: |
           node --check dist/app.js
@@ -39,6 +40,7 @@ jobs:
           node --check dist/room-config.js
           node --check dist/event-media.js
           node --check dist/radio-colors.js
+          node --check dist/schedule.js
       - name: Verify Pages assets and repository subpath support
         run: node scripts/check-pages.mjs
 
