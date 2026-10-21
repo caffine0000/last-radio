@@ -63,7 +63,7 @@ test('요즘 맛있는 이야기: 상상 선택은 선택형 유지, 구매 시�
  g.tick(2100);assert.equal(g.state.phase,'choice');g.choose(0,2200);
  assert.equal(g.state.history[0].description,'당신은 팰리스의 말에 홀린 듯 디저트를 사러 가버렸다.\n시트린이 어째 문틈으로 바라본다.');
  assert.deepEqual(g.state.inventory,['famous-dessert']);
- const item=collectibles.find(item=>item.id==='famous-dessert');assert.equal(item.name,'명물 디저트');assert.equal(item.image,undefined);
+ const item=collectibles.find(item=>item.id==='famous-dessert');assert.equal(item.name,'명물 디저트');assert.equal(item.image.src,'images/famous-dessert.svg');assert.equal(item.description,'네페로디스 이곳저곳을 돌아다니며 사온 맛있는 디저트.\n뒤에 있던 시트린이 따라와 몰래 두개 가져갔다.');
  g.tick(3200);assert.equal(g.state.phase,'observation');assert.equal(g.event.continueText,'맛있겠다');
  const restored=new RadioEngine([dessert],1,g.state,4200,()=>0,collectibles);
  assert.equal(restored.state.phase,'observation');restored.tick(13200);assert.equal(restored.state.phase,'waiting');
