@@ -1,6 +1,6 @@
-import { historyDescription, eventsForStorage } from './event-log.js';
+import { historyDescription, eventsForStorage, collectiblesForStorage, compatibleProgress } from './event-log.js';
 import { initRadioColors } from './radio-colors.js';
-import { appendEventImage } from './event-media.js';
+import { appendEventImage, appendCollectibleImage } from './event-media.js';
 import { updateRoom } from './room.js';
 import { updateSky } from './sky.js';
 import { settings, events, collectibles } from './events.js';
@@ -9,9 +9,10 @@ import { RadioEngine } from './engine.js';
 const $ = id => document.getElementById(id);
 // 이벤트 데이터를 바꾸면 기존 저장 데이터와 섞이지 않도록 별도로 저장합니다.
 const radioColors = initRadioColors('last-radio-colors-v1:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/'));
-const key = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':' + JSON.stringify({events:eventsForStorage(events), collectibles});
+const keyPrefix = 'last-radio-v2:' + location.pathname.replace(/\/index\.html$/, '/').replace(/\/?$/, '/') + ':';
+const key = keyPrefix + JSON.stringify({events:eventsForStorage(events), collectibles:collectiblesForStorage(collectibles)});
 let saved;
-try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* 저장 없이도 플레이 가능 */ }
+try { saved = JSON.parse(localStorage.getItem(key)) ?? compatibleProgress(localStorage, keyPrefix, events, collectibles); } catch { /* 저장 없이도 플레이 가능 */ }
 let engine;
 try { engine = new RadioEngine(events, settings.cooldownSeconds, saved, Date.now(), Math.random, collectibles); }
 catch (error) { $('message').textContent = error.message; $('power').disabled = true; throw error; }
@@ -96,7 +97,9 @@ function render() {
   for (const item of collectibles) {
     const owned = s.inventory.includes(item.id);
     const card = node('article', '', 'collection-card');
-    card.append(node('h3', owned ? item.name : '미발견 수집품'), node('p', owned ? item.description : '방송에서 행동을 선택하여 발견하세요.'));
+    card.append(node('h3', owned ? item.name : '미발견 수집품'));
+    appendCollectibleImage(card, item, owned);
+    card.append(node('p', owned ? item.description : '방송에서 행동을 선택하여 발견하세요.'));
     list.append(card);
   }
   updateClock();
