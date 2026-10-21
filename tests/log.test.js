@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {historyDescription,eventsForStorage} from '../dist/event-log.js';
+import {historyDescription,eventsForStorage,collectiblesForStorage,compatibleProgress} from '../dist/event-log.js';
 import {RadioEngine,validateEvents} from '../dist/engine.js';
 import {events,collectibles} from '../dist/events.js';
 const expected="처음으로 들어본 오프닝. 종말이라는 말과 달리, '팰리스'라는 자는 발랄하다.";
@@ -31,4 +31,19 @@ test('내부 태그만 추가·수정·삭제해도 저장 키와 기존 진행 
  const tagged=[{...plain[0],tags:['오프닝','음악']}];
  assert.deepEqual(eventsForStorage(tagged),eventsForStorage(plain));
  assert.deepEqual(eventsForStorage([{...plain[0],tags:[]}]),eventsForStorage(plain));
+});
+
+
+test('수집품 이미지·설명 변경 후 이전 저장을 찾아 획득 상태를 보존',()=>{
+ const items=[{id:'dessert',name:'명물 디저트',description:'예전 설명'}];
+ const updated=[{...items[0],description:'새 설명',image:{src:'images/dessert.svg'}}];
+ assert.deepEqual(collectiblesForStorage(items),collectiblesForStorage(updated));
+ const prefix='last-radio-v2:/last-radio/:';
+ const oldKey=prefix+JSON.stringify({events,collectibles:items});
+ const save={history:[{at:100}],inventory:['dessert'],count:5};
+ const data=new Map([[oldKey,JSON.stringify(save)],['unrelated','invalid'],[prefix+'broken','broken']]);
+ const storage={get length(){return data.size},key:i=>[...data.keys()][i],getItem:key=>data.get(key)};
+ assert.deepEqual(compatibleProgress(storage,prefix,events,updated),save);
+ assert.equal(compatibleProgress(storage,prefix,[{id:'other'}],updated),null);
+ assert.equal(compatibleProgress(storage,prefix,events,[{id:'different'}]),null);
 });
