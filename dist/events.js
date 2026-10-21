@@ -1,7 +1,6 @@
 // 실제 방송 콘텐츠입니다. 이벤트 id는 저장·연계에 사용합니다.
 export const settings = { cooldownSeconds: 15 };
 export const collectibles = [
-  { id: 'item-01', name: '[수집품 이름]', description: '[수집품 설명]' },
   { id: 'famous-dessert', name: '명물 디저트', description: '네페로디스 이곳저곳을 돌아다니며 사온 맛있는 디저트.\n뒤에 있던 시트린이 따라와 몰래 두개 가져갔다.', image: { src: 'images/famous-dessert.svg', alt: '음료와 와플, 과자 등 여러 디저트가 담긴 선물 상자', fit: 'contain' } },
 
 ];
@@ -24,6 +23,7 @@ export const events = [
   },
   {
     "id": "cat-blues",
+    "logDescription": "고양이의 노랫소리에 편안해진다.",
     "type": "observation",
     "title": "고양이 블루스",
     "image": {
