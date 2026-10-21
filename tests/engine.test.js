@@ -18,14 +18,14 @@ test('가중치 비율과 추첨 구간, 잠금 이벤트 제외', () => {
 test('이벤트 완료와 특정 행동 완료를 각각 선행 조건으로 사용', () => {
   const es=[event('a',{choices:[{...choice,id:'yes'},{...choice,id:'no'}]}),event('b',{requires:{events:['a']}}),event('c',{requires:{choices:['a:yes']}})];
   const g=game(es);next(g);finish(g,1);
-  assert.deepEqual(g.probabilities().map(p=>p.id),['a','b']);
-  next(g);finish(g,0);
-  assert.deepEqual(g.probabilities().map(p=>p.id),['a','b','c']);
+  assert.deepEqual(g.probabilities().map(p=>p.id),['b']);
+  next(g);finish(g);next(g);finish(g,0);
+  assert.deepEqual(g.probabilities().map(p=>p.id),['b','c']);
 });
 test('시작 천장: N회 일반 등장 후 바로 다음은 강제 등장', () => {
-  const g=game([event('a'),event('p',{pity:{start:'gameStart',count:2}})]);
+  const g=game([event('a'),event('b'),event('p',{pity:{start:'gameStart',count:2}})]);
   assert.equal(next(g),'a');assert.equal(g.state.pity.p.remaining,1);finish(g);
-  assert.equal(next(g),'a');assert.equal(g.state.pity.p.remaining,0);finish(g);
+  assert.equal(next(g),'b');assert.equal(g.state.pity.p.remaining,0);finish(g);
   assert.deepEqual(g.probabilities(),[{id:'p',probability:1,forced:true}]);
   assert.equal(next(g),'p');assert.equal(g.state.forced,true);
 });
@@ -36,7 +36,7 @@ test('동시 천장에서는 대상만 추첨하고 강제 등장 회차에는 �
   assert.equal(next(g),'a');assert.equal(g.state.pity.r.remaining,3);
 });
 test('특정 행동이 천장을 시작하며 반복 트리거는 초기화하지 않음', () => {
-  const g=game([event('a',{choices:[{...choice,startPity:['p']}]}),event('p',{pity:{start:'trigger',count:2},requires:{choices:['a:ok']}})]);
+  const g=game([event('a',{choices:[{...choice,startPity:['p']}]}),event('b'),event('p',{pity:{start:'trigger',count:2},requires:{choices:['a:ok']}})]);
   assert.equal(g.state.pity.p,undefined);next(g);finish(g);
   assert.equal(g.state.pity.p.remaining,2);next(g);finish(g);
   assert.equal(g.state.pity.p.remaining,1);next(g);finish(g);
@@ -47,7 +47,7 @@ test('잠긴 천장 대상은 해금 후 강제 등장, 일반 추첨으로 먼�
   assert.equal(next(g),'a');finish(g);assert.equal(next(g),'p');
   const early=game([event('p',{pity:{start:'gameStart',count:5}})]);
   next(early);assert.equal(early.state.pity.p.fired,true);finish(early);
-  assert.equal(early.probabilities()[0].forced,false);
+  assert.deepEqual(early.probabilities(),[]);assert.equal(early.state.waitingForRepeat,true);
 });
 test('선택 대기에는 시간이나 천장이 흐르지 않으며 중복 선택 무시', () => {
   const g=game([event('a'),event('p',{pity:{start:'gameStart',count:5}})]);
@@ -76,11 +76,11 @@ test('현재 대기 중 배속 변경과 기본 간격 수정', () => {
   g.setCooldown(8);assert.equal(g.state.deadline,400);g.tick(400);g.choose(0,400);assert.equal(g.state.deadline,2400);
 });
 test('수집품 중복 획득 방지와 저장 복원, 새 게임은 전체 진행 초기화', () => {
-  const es=[event('a',{choices:[{...choice,grantItems:['item']} ]})],items=[{id:'item',name:'물건',description:'설명'}];
-  const g=game(es,()=>0,items);next(g);finish(g);next(g);finish(g);
+  const es=[event('a',{choices:[{...choice,grantItems:['item']} ]}),event('b')],items=[{id:'item',name:'물건',description:'설명'}];
+  const g=game(es,()=>0,items);next(g);finish(g);next(g);finish(g);next(g);finish(g);
   assert.deepEqual(g.state.inventory,['item']);assert.deepEqual(g.state.history[0].gained,[]);
   const restored=new RadioEngine(es,1,g.state,0,()=>0,items);
-  assert.deepEqual(restored.state.inventory,['item']);assert.deepEqual(restored.state.completedChoices,['a:ok']);
+  assert.deepEqual(restored.state.inventory,['item']);assert.deepEqual(restored.state.completedChoices,['a:ok','b:ok']);
   const reset=game(es,()=>0,items);assert.deepEqual(reset.state.inventory,[]);assert.deepEqual(reset.state.history,[]);assert.deepEqual(reset.state.completedEvents,[]);
 });
 test('한 번 등장하는 이벤트는 완료 후 제외되며 후보가 없으면 종료', () => {
@@ -96,4 +96,28 @@ test('실제 이벤트 정의와 유효하지 않은 저장 검사', () => {
   const g=new RadioEngine(events,15,null,0,()=>0,collectibles);assert.equal(g.state.phase,'idle');assert.deepEqual(g.probabilities(0).map(p=>p.id),['opening']);
   assert.equal(new RadioEngine(events,15,{version:1},0,()=>0,collectibles).state.phase,'idle');
   assert.throws(()=>game([event('a',{choices:[{...choice,grantItems:['missing']}]})]));
+});
+
+test('직전 이벤트 제외 후 가중치를 다시 계산하며 새로고침·이전 기록 형식에도 연속 등장 방지',()=>{
+ const es=[event('a',{weight:8}),event('b',{weight:3}),event('c',{weight:1})],g=game(es);
+ next(g);finish(g);assert.deepEqual(g.probabilities().map(p=>[p.id,p.probability]),[['b',.75],['c',.25]]);
+ const saved=structuredClone(g.state);delete saved.history[0].eventId;
+ const restored=new RadioEngine(es,1,saved,0,()=>0);
+ assert.deepEqual(restored.probabilities().map(p=>p.id),['b','c']);
+ for(let i=0;i<20;i++){const last=restored.state.history[0].title;assert.notEqual(next(restored),last);finish(restored);}
+});
+test('동일 방송만 가능하면 쿨타임마다 재확인하며 등장 횟수·천장을 소비하지 않음',()=>{
+ const at=h=>new Date(2026,9,21,h).getTime();
+ const es=[event('a'),event('b',{availability:{timeRanges:[{start:'09:00',end:'10:00'}]},pity:{start:'gameStart',count:2}})];
+ const g=new RadioEngine(es,1,null,at(8),()=>0);g.start(at(8));g.tick(at(8)+1000);g.choose(0,at(8)+1100);
+ assert.equal(g.state.waitingForRepeat,true);assert.equal(g.state.waitingForSchedule,false);
+ const remaining=g.state.pity.b.remaining;g.tick(at(8)+2100);g.tick(at(8)+3100);
+ assert.equal(g.state.count,1);assert.equal(g.state.pity.b.remaining,remaining);assert.equal(g.event,undefined);
+ const restored=new RadioEngine(es,1,g.state,at(9),()=>0);assert.equal(restored.event.id,'b');assert.equal(restored.state.count,2);
+});
+test('같은 이벤트의 0 천장은 다른 방송 뒤로 미루며 강제 등장 회차의 카운트는 보존',()=>{
+ const es=[event('a',{pity:{start:'trigger',count:0},choices:[{...choice,startPity:['a']}]}),event('b',{pity:{start:'gameStart',count:3}})],g=game(es);
+ next(g);finish(g);assert.equal(g.state.pity.a.remaining,0);assert.deepEqual(g.probabilities().map(p=>p.id),['b']);
+ assert.equal(next(g),'b');finish(g);const remaining=g.state.pity.b.remaining;
+ assert.deepEqual(g.probabilities(),[{id:'a',probability:1,forced:true}]);next(g);assert.equal(g.state.pity.b.remaining,remaining);
 });
