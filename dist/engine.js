@@ -90,7 +90,9 @@ export class RadioEngine {
   }
   eligible(e, now = Date.now()) { return this.baseEligible(e) && matchesAvailability(e.availability, now); }
   candidates(now = Date.now()) {
-    const available = this.events.filter(e => this.eligible(e, now) && e.weight > 0);
+    const last = this.state.history[0];
+    const lastId = this.state.eventId || last?.eventId || (last && this.events.filter(e => e.title === last.title).length === 1 ? this.events.find(e => e.title === last.title).id : null);
+    const available = this.events.filter(e => e.id !== lastId && this.eligible(e, now) && e.weight > 0);
     // 아직 완료하지 않은 필수 첫 방송은 일반 추첨과 천장보다 먼저 표시합니다.
     const first = available.filter(e => e.mustSeeFirst && !this.state.completedEvents.includes(e.id));
     if (first.length) return {events:first, forced:true};
@@ -105,11 +107,12 @@ export class RadioEngine {
   draw(now = Date.now()) {
     const pool = this.candidates(now);
     if (!pool.events.length) {
-      if (this.events.some(e => this.baseEligible(e) && e.weight > 0)) this.wait(now, true);
+      if (this.events.some(e => this.baseEligible(e) && e.weight > 0)) this.waitForNext(now);
       else { this.state.phase = 'finished'; this.state.deadline = null; this.state.waitingForSchedule = false; }
       return;
     }
     this.state.waitingForSchedule = false;
+    this.state.waitingForRepeat = false;
     let roll = this.random() * pool.events.reduce((sum,e) => sum + e.weight, 0);
     let event = pool.events.at(-1);
     for (const e of pool.events) { roll -= e.weight; if (roll < 0) { event = e; break; } }
@@ -138,9 +141,14 @@ export class RadioEngine {
     if (!event?.pity || this.state.pity[id]) return;
     this.state.pity[id] = {remaining:event.pity.count, fired:false};
   }
-  wait(now, waitingForSchedule = false) {
+  waitForNext(now) {
+    const anyAvailable = this.events.some(e => this.eligible(e, now) && e.weight > 0);
+    this.wait(now, !anyAvailable, anyAvailable && !this.candidates(now).events.length);
+  }
+  wait(now, waitingForSchedule = false, waitingForRepeat = false) {
     const s = this.state;
     s.waitingForSchedule = waitingForSchedule;
+    s.waitingForRepeat = waitingForRepeat;
     s.remaining = s.cooldown * 1000 / s.speed;
     s.intervalTotal = s.remaining;
     s.phase = s.pauseReasons.length ? 'paused' : 'waiting';
@@ -172,7 +180,7 @@ export class RadioEngine {
     s.history = s.history.slice(0, 200);
     s.eventId = null;
     if (!this.events.some(event => this.baseEligible(event) && event.weight > 0)) { s.phase = 'finished'; s.deadline = null; s.waitingForSchedule = false; }
-    else this.wait(now, !this.candidates(now).events.length);
+    else this.waitForNext(now);
     return true;
   }
   pause(reason, now = Date.now()) {
