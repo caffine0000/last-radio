@@ -2,6 +2,7 @@
 export const settings = { cooldownSeconds: 15 };
 export const collectibles = [
   { id: 'item-01', name: '[수집품 이름]', description: '[수집품 설명]' },
+  { id: 'famous-dessert', name: '명물 디저트', description: '팰리스의 이야기를 듣고 네페로디스에서 사 온 디저트.' },
 
 ];
 export const events = [
@@ -36,6 +37,39 @@ export const events = [
     "text": "시청자가 신청곡을 넣었다.\n\n팰리스는 갑자기 기타를 키더니 감미롭게 노래를\n부르기 시작한다.\n\n감미로운 미성과 흥겨운 통기타 소리가 라디오로부터 흘러나오며 편안한 분위기.\n\n\"오늘의 신청곡 어떠셨습니까? 저는 이런 음악도 좋아하는데...\"\n\n그러자 팰리스는 자신이 직접 음악을 골라 부르기 시작했다.",
     "onComplete": {
       "result": "고양이의 노랫소리에 편안해진다"
+    }
+  },
+  {
+    "id": "dessert-talk",
+    "type": "choice",
+    "title": "요즘 맛있는 이야기",
+    "image": {
+      "src": "images/dessert-talk.svg",
+      "alt": "각종 디저트 사진으로 꾸며진 방송실에서 맛있는 이야기를 전하는 검은 고양이 팰리스",
+      "fit": "contain"
+    },
+    "weight": 10,
+    "once": false,
+    "text": "\"종말이라지만, 아니 어쩌면 종말이 다가와서 맛있는게 땡기기도 하죠.\"\n\n\"대표적으로 섹터 15의 디저트는 단맛과 신맛의\n조화가 일품이죠. 가격이 좀 비싸지만요.\"\n\"섹터 8은 반면 담백한 맛이...\"\n\n그렇게 팰리스는 온갖 디저트에 관해 이야기했다.\n당신은 입맛이 돌기 시작한다.",
+    "choices": [
+      {
+        "id": "buy-dessert",
+        "text": "디저트를 사러 네페로디스로 향한다.",
+        "result": "당신은 팰리스의 말에 홀린 듯 디저트를 사러 가버렸다.\n시트린이 어째 문틈으로 바라본다.",
+        "observationOnRepeat": true,
+        "grantItems": [
+          "famous-dessert"
+        ]
+      },
+      {
+        "id": "imagine",
+        "text": "그냥 입맛만 다신다.",
+        "result": "당신은 그냥 상상만 했다."
+      }
+    ],
+    "continueText": "맛있겠다",
+    "onComplete": {
+      "result": "맛있겠다"
     }
   }
 ];
