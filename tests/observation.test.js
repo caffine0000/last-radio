@@ -69,20 +69,25 @@ const repeatEvent=(extra={})=>({...choice('repeat'),tags:['일상','음악'],cho
  {id:'normal',text:'응답',result:'응답했다'},
 ],continueText:'계속 감상한다',onComplete:{result:'음악 감상 완료'},...extra});
 const gift=[{id:'gift',name:'선물',description:'설명'}];
+const withGap=e=>[e,observation('gap')];
+function cycle(g){
+ const time=g.state.deadline;g.tick(time);assert.equal(g.event.id,'gap');g.completeObservation(time);
+ const next=g.state.deadline;g.tick(next);return next;
+}
 test('특정 선택 이후의 재등장만 비선택형이 되고 첫 선택 결과를 보존',()=>{
- const g=make([repeatEvent()],gift);arrive(g);
- assert.equal(g.state.phase,'choice');g.choose(1,1200);g.tick(2200);assert.equal(g.state.phase,'choice');
- g.choose(0,2300);assert.equal(g.state.history[0].result,'전환 선택 완료');assert.deepEqual(g.state.inventory,['gift']);
- assert.equal(g.state.phase,'waiting');g.tick(3300);assert.equal(g.state.phase,'observation');assert.equal(g.event.type,'observation');
- assert.equal(g.event.continueText,'계속 감상한다');assert.equal(g.choose(0,3400),false);
- assert.equal(g.tick(13299),false);g.tick(13300);
+ const g=make(withGap(repeatEvent()),gift);arrive(g);g.choose(1,1200);
+ cycle(g);assert.equal(g.state.phase,'choice');g.choose(0,g.state.deadline || 4000);
+ assert.equal(g.state.history[0].result,'전환 선택 완료');assert.deepEqual(g.state.inventory,['gift']);
+ const time=cycle(g);assert.equal(g.state.phase,'observation');assert.equal(g.event.type,'observation');
+ assert.equal(g.event.continueText,'계속 감상한다');assert.equal(g.choose(0,time),false);
+ assert.equal(g.tick(time+9999),false);g.tick(time+10000);
  assert.equal(g.state.history[0].result,'음악 감상 완료');assert.deepEqual(g.state.completedChoices,['repeat:normal','repeat:again']);
- assert.deepEqual(g.state.completedObservations,['repeat']);assert.deepEqual(g.state.inventory,['gift']);
- g.tick(14300);assert.equal(g.state.phase,'observation');
+ assert.ok(g.state.completedObservations.includes('repeat'));assert.deepEqual(g.state.inventory,['gift']);
+ cycle(g);assert.equal(g.event.id,'repeat');assert.equal(g.state.phase,'observation');
 });
 test('전환된 감상도 일시정지·배속·저장 복원·수동 완료를 지원하고 리셋 시 해제',()=>{
- const events=[repeatEvent()],g=make(events,gift);arrive(g);g.choose(0,1100);g.tick(2100);
- g.pause('settings',3100);g.setSpeed(8,3200);
+ const events=withGap(repeatEvent()),g=make(events,gift);arrive(g);g.choose(0,1100);const time=cycle(g);
+ g.pause('settings',time+1000);g.setSpeed(8,time+1100);
  const restored=new RadioEngine(events,1,g.state,99999,()=>0,gift);
  assert.equal(restored.state.phase,'observation');assert.equal(restored.remaining(),9000);
  restored.resume('settings',100000);assert.equal(restored.state.deadline,109000);
@@ -90,10 +95,10 @@ test('전환된 감상도 일시정지·배속·저장 복원·수동 완료를 
  const reset=make(events,gift);arrive(reset);assert.equal(reset.state.phase,'choice');
 });
 test('전환 후 완료 효과는 첫 선택 시 실행되지 않고 감상 완료 시 적용',()=>{
- const events=[repeatEvent({onComplete:{result:'마지막 감상',grantItems:['bonus'],disableEvent:true}})];
+ const events=withGap(repeatEvent({onComplete:{result:'마지막 감상',grantItems:['bonus'],disableEvent:true}}));
  const items=[...gift,{id:'bonus',name:'추가',description:'추가 선물'}],g=make(events,items);arrive(g);g.choose(0,1100);
- assert.deepEqual(g.state.inventory,['gift']);assert.equal(g.state.phase,'waiting');g.tick(2100);assert.equal(g.state.phase,'observation');
- g.completeObservation(2200);assert.deepEqual(g.state.inventory,['gift','bonus']);assert.equal(g.state.phase,'finished');
+ assert.deepEqual(g.state.inventory,['gift']);assert.equal(g.state.phase,'waiting');const time=cycle(g);assert.equal(g.state.phase,'observation');
+ g.completeObservation(time+100);assert.deepEqual(g.state.inventory,['gift','bonus']);assert.equal(g.baseEligible(events[0]),false);
 });
 test('once 또는 선택에 따른 재등장 금지는 비선택 전환보다 우선',()=>{
  for(const e of [repeatEvent({once:true}),repeatEvent({choices:[{id:'end',text:'종료',result:'종료',observationOnRepeat:true,disableEvent:true}]})]) {
@@ -103,15 +108,16 @@ test('once 또는 선택에 따른 재등장 금지는 비선택 전환보다 �
 test('전환 뒤에도 선행 조건·날짜/시간 제한·천장 후보 규칙을 유지',()=>{
  const at=h=>new Date(2026,9,17,h).getTime();
  const e=repeatEvent({availability:{timeRanges:[{start:'09:00',end:'10:00'}]},pity:{start:'gameStart',count:0}});
- const g=new RadioEngine([e],1,null,at(9),()=>0,gift);g.start(at(9));g.tick(at(9)+1000);assert.equal(g.state.forced,true);
- g.choose(0,at(9)+1100);g.tick(at(11));assert.equal(g.state.waitingForSchedule,true);assert.equal(g.state.count,1);
- const tomorrow=new Date(2026,9,18,9).getTime();g.tick(tomorrow);assert.equal(g.state.phase,'observation');assert.equal(g.state.count,2);
+ const gap=observation('gap',{requires:{events:['repeat']},availability:{timeRanges:[{start:'11:00',end:'12:00'}]}});
+ const g=new RadioEngine([e,gap],1,null,at(9),()=>0,gift);g.start(at(9));g.tick(at(9)+1000);assert.equal(g.state.forced,true);
+ g.choose(0,at(9)+1100);g.tick(at(11));assert.equal(g.event.id,'gap');g.completeObservation(at(11)+1000);
+ const tomorrow=new Date(2026,9,18,9).getTime();g.tick(tomorrow);assert.equal(g.event.id,'repeat');assert.equal(g.state.phase,'observation');assert.equal(g.state.count,3);
 });
 test('이전 저장에 감상 완료 목록이 없어도 호환하며 무효 전환 저장은 거부',()=>{
  const g=make([observation('a',{onComplete:{disableEvent:true}})]);arrive(g);g.completeObservation(1100);
  delete g.state.completedObservations;
  const restored=new RadioEngine(g.events,1,g.state,1200,()=>0);assert.equal(restored.state.phase,'finished');assert.deepEqual(restored.state.completedObservations,['a']);
- const r=make([repeatEvent()],gift);arrive(r);r.choose(0,1100);r.tick(2100);
+ const r=make(withGap(repeatEvent()),gift);arrive(r);r.choose(0,1100);cycle(r);
  const bad=structuredClone(r.state);bad.completedChoices=[];assert.equal(new RadioEngine(r.events,1,bad,2200,()=>0,gift).state.phase,'idle');
  const badList=structuredClone(r.state);badList.completedObservations=['unknown'];assert.equal(new RadioEngine(r.events,1,badList,2200,()=>0,gift).state.phase,'idle');
 });
