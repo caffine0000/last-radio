@@ -22,3 +22,7 @@ export function appendEventImage(parent, image, title, doc = document) {
   parent.append(figure);
   img.src=data.src;
 }
+
+export function appendCollectibleImage(parent, item, owned, doc = document) {
+  if (owned && item.image) appendEventImage(parent, item.image, item.name, doc);
+}
