@@ -2,6 +2,7 @@
 export const settings = { cooldownSeconds: 15 };
 export const collectibles = [
   { id: 'item-01', name: '[수집품 이름]', description: '[수집품 설명]' },
+
 ];
 export const events = [
   {
@@ -18,6 +19,23 @@ export const events = [
     "text": "라디오가 치직이며 흥겨운 음악이 나온다.\n\n' 𝅘𝅥𝅮아르카디아의 끝까지 가는 방송 𝅘𝅥𝅮\n 𝅘𝅥𝅮팰리스의 종말 라디오 FM 𝅘𝅥𝅮'\n\n\"오늘도 마지막 날까지~ 전해드리는 ｢종말 라디오｣의 진행자 '팰리스'입니다~!\"",
     "onComplete": {
       "result": "오프닝을 들었다."
+    }
+  },
+  {
+    "id": "cat-blues",
+    "type": "observation",
+    "title": "고양이 블루스",
+    "image": {
+      "src": "images/cat-blues.svg",
+      "alt": "별과 달이 빛나는 방송실에서 통기타를 연주하며 노래하는 검은 고양이 팰리스",
+      "fit": "contain"
+    },
+    "weight": 15,
+    "once": false,
+    "continueText": "고양이의 노랫소리에 편안해진다",
+    "text": "시청자가 신청곡을 넣었다.\n\n팰리스는 갑자기 기타를 키더니 감미롭게 노래를\n부르기 시작한다.\n\n감미로운 미성과 흥겨운 통기타 소리가 라디오로부터 흘러나오며 편안한 분위기.\n\n\"오늘의 신청곡 어떠셨습니까? 저는 이런 음악도 좋아하는데...\"\n\n그러자 팰리스는 자신이 직접 음악을 골라 부르기 시작했다.",
+    "onComplete": {
+      "result": "고양이의 노랫소리에 편안해진다"
     }
   }
 ];
