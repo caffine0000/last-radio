@@ -22,10 +22,11 @@ export function compatibleProgress(storage, prefix, events, items) {
     if (!key?.startsWith(prefix)) continue;
     try {
       const definitions = JSON.parse(key.slice(prefix.length));
-      if (JSON.stringify(eventsForStorage(definitions.events)) !== eventKey || JSON.stringify(collectiblesForStorage(definitions.collectibles)) !== itemKey) continue;
+      if (JSON.stringify(eventsForStorage(definitions.events)) !== eventKey || JSON.stringify(collectiblesForStorage(definitions.collectibles.filter(item => item.id !== 'item-01' || items.some(current => current.id === item.id)))) !== itemKey) continue;
       const save = JSON.parse(storage.getItem(key));
       if (!save || !Array.isArray(save.history)) continue;
       const time = Math.max(0, ...save.history.map(entry => Number(entry.at) || 0));
+      if (!items.some(item => item.id === 'item-01') && Array.isArray(save.inventory)) save.inventory = save.inventory.filter(id => id !== 'item-01');
       if (time > latest) { found = save; latest = time; }
     } catch { /* 손상되었거나 다른 형식인 저장은 건너뜁니다. */ }
   }
