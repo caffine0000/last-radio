@@ -6,6 +6,7 @@ export const collectibles = [
 export const events = [
   {
     "id": "opening",
+    "tags": ["오프닝"],
     "type": "observation",
     "title": "오프닝",
     "logDescription": "처음으로 들어본 오프닝. 종말이라는 말과 달리, '팰리스'라는 자는 발랄하다.",
