@@ -47,3 +47,17 @@ test('수집품 이미지·설명 변경 후 이전 저장을 찾아 획득 상�
  assert.equal(compatibleProgress(storage,prefix,[{id:'other'}],updated),null);
  assert.equal(compatibleProgress(storage,prefix,events,[{id:'different'}]),null);
 });
+
+test('고양이 블루스의 이전 청취 기록에도 마침표 적용',()=>{
+ assert.equal(historyDescription({eventId:'cat-blues',result:'고양이의 노랫소리에 편안해진다'},events),'고양이의 노랫소리에 편안해진다.');
+});
+test('견본 수집품 삭제 후 실제 수집품과 진행을 보존하고 옛 스탠드 수집품만 제거',()=>{
+ assert.deepEqual(collectibles.map(item=>item.id),['famous-dessert']);
+ const prefix='last-radio-v2:/last-radio/:';
+ const oldItems=[{id:'item-01',name:'견본',description:'설명'},...collectibles];
+ const oldKey=prefix+JSON.stringify({events,collectibles:oldItems});
+ const save={history:[{eventId:'dessert-talk',at:100}],inventory:['item-01','famous-dessert'],completedChoices:['dessert-talk:buy-dessert']};
+ const storage={length:1,key:()=>oldKey,getItem:()=>JSON.stringify(save)};
+ const migrated=compatibleProgress(storage,prefix,events,collectibles);
+ assert.deepEqual(migrated.inventory,['famous-dessert']);assert.deepEqual(migrated.completedChoices,save.completedChoices);assert.deepEqual(migrated.history,save.history);
+});
