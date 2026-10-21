@@ -1,5 +1,8 @@
 import { validateAvailability, matchesAvailability } from './schedule.js';
 import { eventImage } from './event-media.js';
+function isObservation(event, completedChoices = []) {
+  return event.type === 'observation' || (event.choices || []).some(choice => choice.observationOnRepeat && completedChoices.includes(`${event.id}:${choice.id}`));
+}
 export function validateEvents(events, collectibles = []) {
   if (!Array.isArray(events) || !events.length) throw new Error('이벤트를 하나 이상 등록하세요.');
   const ids = new Set(events.map(e => e.id));
@@ -9,9 +12,11 @@ export function validateEvents(events, collectibles = []) {
   if (ids.size !== events.length) throw new Error('이벤트 id가 중복되었습니다.');
   for (const e of events) {
     const observation = e.type === 'observation';
+    const canObserve = observation || (e.choices || []).some(c => c.observationOnRepeat === true);
+    if (e.tags !== undefined && (!Array.isArray(e.tags) || e.tags.some(tag => typeof tag !== 'string' || !tag.trim()) || new Set(e.tags).size !== e.tags.length)) throw new Error(`${e.id}: tags는 중복 없는 태그 문자열 배열이어야 합니다.`);
     if (e.logDescription !== undefined && typeof e.logDescription !== 'string') throw new Error(`${e.id}: logDescription은 문자열이어야 합니다.`);
     if (e.mustSeeFirst !== undefined && typeof e.mustSeeFirst !== 'boolean') throw new Error(`${e.id}: mustSeeFirst는 true 또는 false여야 합니다.`);
-    if (e.continueText !== undefined && (!observation || typeof e.continueText !== 'string' || !e.continueText.trim())) throw new Error(`${e.id}: 관람 진행 버튼 문구를 확인하세요.`);
+    if (e.continueText !== undefined && (!canObserve || typeof e.continueText !== 'string' || !e.continueText.trim())) throw new Error(`${e.id}: 관람 진행 버튼 문구를 확인하세요.`);
     if (e.type !== undefined && !['choice','observation'].includes(e.type)) throw new Error(`${e.id}: 이벤트 type을 확인하세요.`);
     eventImage(e.image, e.title);
     try { validateAvailability(e.availability); } catch (error) { throw new Error(`${e.id}: ${error.message}`); }
@@ -20,13 +25,14 @@ export function validateEvents(events, collectibles = []) {
     if ((e.requires?.events || []).some(id => !ids.has(id)) || (e.requires?.choices || []).some(id => !choices.has(id))) throw new Error(`${e.id}: 선행 조건 id를 확인하세요.`);
     if (e.onComplete !== undefined) {
       const effect = e.onComplete;
-      if (!observation || !effect || typeof effect !== 'object' || Array.isArray(effect) || (effect.result !== undefined && typeof effect.result !== 'string') || (effect.disableEvent !== undefined && typeof effect.disableEvent !== 'boolean')) throw new Error(`${e.id}: 관람 완료 효과를 확인하세요.`);
+      if (!canObserve || !effect || typeof effect !== 'object' || Array.isArray(effect) || (effect.result !== undefined && typeof effect.result !== 'string') || (effect.disableEvent !== undefined && typeof effect.disableEvent !== 'boolean')) throw new Error(`${e.id}: 관람 완료 효과를 확인하세요.`);
       if (effect.grantItems !== undefined && (!Array.isArray(effect.grantItems) || effect.grantItems.some(id => !items.has(id)))) throw new Error(`${e.id}: 관람 수집품 id를 확인하세요.`);
       if (effect.startPity !== undefined && (!Array.isArray(effect.startPity) || effect.startPity.some(id => !events.find(event => event.id === id)?.pity))) throw new Error(`${e.id}: 관람 천장 대상 id를 확인하세요.`);
     }
     const seen = new Set();
     for (const c of e.choices || []) {
       if (!c.id || seen.has(c.id) || typeof c.text !== 'string' || typeof c.result !== 'string') throw new Error(`${e.id}: 행동 id와 문구를 확인하세요.`);
+      if (c.observationOnRepeat !== undefined && typeof c.observationOnRepeat !== 'boolean') throw new Error(`${e.id}: observationOnRepeat는 true 또는 false여야 합니다.`);
       if (c.disableEvent !== undefined && typeof c.disableEvent !== 'boolean') throw new Error(`${e.id}: disableEvent는 true 또는 false여야 합니다.`);
       seen.add(c.id);
       if ((c.grantItems || []).some(id => !items.has(id))) throw new Error(`${e.id}: 수집품 id를 확인하세요.`);
@@ -50,6 +56,8 @@ export class RadioEngine {
     if (!saved || !this.validSave(saved)) for (const e of events) {
       if (e.pity?.start === 'gameStart') this.startPity(e.id);
     }
+    // 이전 저장에는 비선택 완료 목록이 없으므로 기존 비선택 이벤트 완료 기록으로 보완합니다.
+    this.state.completedObservations ??= this.state.completedEvents.filter(id => this.events.some(e => e.id === id && e.type === 'observation'));
     this.tick(now);
   }
   validSeconds(n) { return Math.max(1, Math.min(3600, Number(n) || 15)); }
@@ -63,15 +71,19 @@ export class RadioEngine {
     if (!['completedEvents','completedChoices','inventory','history'].every(k => Array.isArray(s[k]))) return false;
     if (s.completedEvents.some(id => !this.events.some(e => e.id === id)) || s.completedChoices.some(id => !this.events.some(e => (e.choices || []).some(c => `${e.id}:${c.id}` === id))) || s.inventory.some(id => !this.collectibles.some(i => i.id === id))) return false;
     if (s.history.some(h => !h || typeof h.title !== 'string' || typeof h.choice !== 'string' || typeof h.result !== 'string' || !Number.isFinite(h.at))) return false;
-    if (s.phase === 'choice' && !this.events.some(e => e.id === s.eventId && e.type !== 'observation')) return false;
-    if (s.phase === 'observation' && (!this.events.some(e => e.id === s.eventId && e.type === 'observation') || (s.pauseReasons.length ? s.deadline !== null : !Number.isFinite(s.deadline)))) return false;
+    if (s.completedObservations !== undefined && (!Array.isArray(s.completedObservations) || s.completedObservations.some(id => !s.completedEvents.includes(id)))) return false;
+    if (s.phase === 'choice' && !this.events.some(e => e.id === s.eventId && !isObservation(e, s.completedChoices))) return false;
+    if (s.phase === 'observation' && (!this.events.some(e => e.id === s.eventId && isObservation(e, s.completedChoices)) || (s.pauseReasons.length ? s.deadline !== null : !Number.isFinite(s.deadline)))) return false;
     return s.pity && typeof s.pity === 'object' && !Array.isArray(s.pity) && Object.entries(s.pity).every(([id,p]) => this.events.some(e => e.id === id && e.pity) && p && Number.isInteger(p.remaining) && p.remaining >= 0 && typeof p.fired === 'boolean');
   }
-  get event() { return this.events.find(e => e.id === this.state.eventId); }
+  get event() {
+    const event = this.events.find(e => e.id === this.state.eventId);
+    return event && isObservation(event, this.state.completedChoices) ? {...event, type:'observation'} : event;
+  }
   baseEligible(e) {
     const s = this.state;
     return !(e.once && s.completedEvents.includes(e.id)) &&
-      !(e.type === 'observation' && e.onComplete?.disableEvent && s.completedEvents.includes(e.id)) &&
+      !(e.onComplete?.disableEvent && s.completedObservations.includes(e.id)) &&
       !(e.choices || []).some(c => c.disableEvent && s.completedChoices.includes(`${e.id}:${c.id}`)) &&
       (e.requires?.events || []).every(id => s.completedEvents.includes(id)) &&
       (e.requires?.choices || []).every(id => s.completedChoices.includes(id));
@@ -110,7 +122,7 @@ export class RadioEngine {
     this.state.eventId = event.id;
     this.state.forced = pool.forced;
     this.state.count++;
-    if (event.type === 'observation') {
+    if (isObservation(event, this.state.completedChoices)) {
       this.state.phase = 'observation';
       this.state.remaining = 10000;
       this.state.intervalTotal = 10000;
@@ -150,6 +162,7 @@ export class RadioEngine {
   }
   finishEvent(c, now, choiceId, label) {
     const e = this.event, s = this.state;
+    if (s.phase === 'observation' && !s.completedObservations.includes(e.id)) s.completedObservations.push(e.id);
     if (!s.completedEvents.includes(e.id)) s.completedEvents.push(e.id);
     if (choiceId && !s.completedChoices.includes(`${e.id}:${choiceId}`)) s.completedChoices.push(`${e.id}:${choiceId}`);
     const gained = [...new Set(c.grantItems || [])].filter(id => !s.inventory.includes(id));
