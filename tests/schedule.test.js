@@ -34,8 +34,8 @@ test('잘못된 날짜·시각 및 오타 설정은 시작 시 명확하게 검�
 test('특정 행동을 선택한 경우에만 재등장 금지되며 저장 후에도 유지',()=>{
  const events=[e('a',{choices:[{...c,id:'stay'},{...c,id:'end',disableEvent:true}]}),e('b')];
  const g=make(events);g.start(at(9));g.tick(at(9)+1000);g.choose(0,at(9)+1000);
- assert.deepEqual(g.probabilities(at(9)).map(p=>p.id),['a','b']);
- g.tick(at(9)+2000);g.choose(1,at(9)+2000);
+ assert.deepEqual(g.probabilities(at(9)).map(p=>p.id),['b']);
+ g.tick(at(9)+2000);g.choose(0,at(9)+2000);g.tick(at(9)+3000);g.choose(1,at(9)+3000);
  assert.deepEqual(g.probabilities(at(9)).map(p=>p.id),['b']);
  const restored=new RadioEngine(events,1,g.state,at(9)+2000,()=>0);
  assert.deepEqual(restored.probabilities(at(9)).map(p=>p.id),['b']);
