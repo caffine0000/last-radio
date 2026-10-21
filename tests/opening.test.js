@@ -43,30 +43,30 @@ test('우선순위와 버튼 문구 옵션의 형식 검사',()=>{
 
 
 test('실제 방송 목록은 오프닝 후 고양이 블루스로 이어지고 자동·버튼 감상 후 반복 가능',()=>{
- const data=events.filter(event=>event.id !== 'dessert-talk');
- const g=make(data);g.start(0);g.tick(1000);assert.equal(g.event.id,'opening');
+ const data=events;
+ const g=make(data);g.random=()=>0;g.start(0);g.tick(1000);assert.equal(g.event.id,'opening');
  g.completeObservation(1100);assert.equal(g.state.phase,'waiting');g.tick(2100);
  assert.equal(g.event.id,'cat-blues');assert.equal(g.event.type,'observation');assert.equal(g.event.weight,15);
  assert.equal(g.event.continueText,'고양이의 노랫소리에 편안해진다');assert.equal(g.event.image.src,'images/cat-blues.svg');
  assert.equal(g.event.once,false);assert.equal(g.choose(0,2200),false);
- g.tick(12100);assert.equal(g.state.history[0].title,'고양이 블루스');g.tick(13100);assert.equal(g.event.id,'cat-blues');
- g.completeObservation(13200);assert.deepEqual(g.probabilities(13200),[{id:'cat-blues',probability:1,forced:false}]);
+ g.tick(12100);assert.equal(g.state.history[0].title,'고양이 블루스');g.tick(13100);assert.equal(g.event.id,'dessert-talk');
+ g.choose(1,13200);assert.deepEqual(g.probabilities(13200),[{id:'cat-blues',probability:1,forced:false}]);
  const restored=new RadioEngine(data,1,g.state,13300,()=>0,collectibles);restored.tick(14200);assert.equal(restored.event.id,'cat-blues');
 });
 
 
 test('요즘 맛있는 이야기: 상상 선택은 선택형 유지, 구매 시에만 수집품·다음 등장 비선택 전환',()=>{
- const dessert=events.find(event=>event.id==='dessert-talk');
- const g=make([dessert]);g.start(0);g.tick(1000);assert.equal(g.state.phase,'choice');
+ const dessert=events.find(event=>event.id==='dessert-talk'),blues=events.find(event=>event.id==='cat-blues');
+ const data=[blues,dessert],g=make(data);g.start(0);g.tick(1000);assert.equal(g.event.id,'dessert-talk');
  assert.equal(g.event.weight,10);assert.equal(g.event.once,false);assert.equal(g.event.image.src,'images/dessert-talk.svg');
  g.choose(1,1100);assert.equal(g.state.history[0].description,'당신은 그냥 상상만 했다.');assert.deepEqual(g.state.inventory,[]);
- g.tick(2100);assert.equal(g.state.phase,'choice');g.choose(0,2200);
+ g.tick(2100);assert.equal(g.event.id,'cat-blues');g.completeObservation(2200);g.tick(3200);assert.equal(g.state.phase,'choice');g.choose(0,3300);
  assert.equal(g.state.history[0].description,'당신은 팰리스의 말에 홀린 듯 디저트를 사러 가버렸다.\n시트린이 어째 문틈으로 바라본다.');
  assert.deepEqual(g.state.inventory,['famous-dessert']);
  const item=collectibles.find(item=>item.id==='famous-dessert');assert.equal(item.name,'명물 디저트');assert.equal(item.image.src,'images/famous-dessert.svg');assert.equal(item.description,'네페로디스 이곳저곳을 돌아다니며 사온 맛있는 디저트.\n뒤에 있던 시트린이 따라와 몰래 두개 가져갔다.');
- g.tick(3200);assert.equal(g.state.phase,'observation');assert.equal(g.event.continueText,'맛있겠다');
- const restored=new RadioEngine([dessert],1,g.state,4200,()=>0,collectibles);
- assert.equal(restored.state.phase,'observation');restored.tick(13200);assert.equal(restored.state.phase,'waiting');
- restored.tick(14200);assert.equal(restored.state.phase,'observation');restored.completeObservation(14300);
+ g.tick(4300);g.completeObservation(4400);g.tick(5400);assert.equal(g.state.phase,'observation');assert.equal(g.event.continueText,'맛있겠다');
+ const restored=new RadioEngine(data,1,g.state,6400,()=>0,collectibles);
+ assert.equal(restored.state.phase,'observation');restored.tick(15400);assert.equal(restored.state.phase,'waiting');
+ restored.tick(16400);assert.equal(restored.event.id,'cat-blues');restored.completeObservation(16500);restored.tick(17500);assert.equal(restored.event.id,'dessert-talk');
  assert.deepEqual(restored.state.inventory,['famous-dessert']);assert.deepEqual(restored.state.completedChoices,['dessert-talk:imagine','dessert-talk:buy-dessert']);
 });
