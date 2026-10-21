@@ -10,3 +10,24 @@ export function historyDescription(entry, events) {
   }
   return event?.logDescription ?? entry.description ?? entry.result ?? '';
 }
+
+// 수집품 표시 정보는 진행 조건에 영향을 주지 않습니다.
+export function collectiblesForStorage(items) { return items.map(({id}) => ({id})); }
+export function compatibleProgress(storage, prefix, events, items) {
+  const eventKey = JSON.stringify(eventsForStorage(events));
+  const itemKey = JSON.stringify(collectiblesForStorage(items));
+  let found = null, latest = -1;
+  for (let i = 0; i < storage.length; i++) {
+    const key = storage.key(i);
+    if (!key?.startsWith(prefix)) continue;
+    try {
+      const definitions = JSON.parse(key.slice(prefix.length));
+      if (JSON.stringify(eventsForStorage(definitions.events)) !== eventKey || JSON.stringify(collectiblesForStorage(definitions.collectibles)) !== itemKey) continue;
+      const save = JSON.parse(storage.getItem(key));
+      if (!save || !Array.isArray(save.history)) continue;
+      const time = Math.max(0, ...save.history.map(entry => Number(entry.at) || 0));
+      if (time > latest) { found = save; latest = time; }
+    } catch { /* 손상되었거나 다른 형식인 저장은 건너뜁니다. */ }
+  }
+  return found;
+}
