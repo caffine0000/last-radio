@@ -18,10 +18,17 @@ test('이전 기록도 유일한 제목으로 최신 설명을 표시',()=>{
 test('설명 미설정 시 기존 기록을 보존하며 설명만 수정하면 저장 키는 유지',()=>{
  assert.equal(historyDescription({eventId:'a',description:'저장된 설명',result:'결과'},[{id:'a'}]),'저장된 설명');
  assert.equal(historyDescription({result:'결과'},[]),'결과');
- const old=events.map(({logDescription,...event})=>event);
+ const old=events.map(({logDescription,tags,...event})=>event);
  assert.equal(JSON.stringify({events:eventsForStorage(events),collectibles}),JSON.stringify({events:old,collectibles}));
  assert.equal(JSON.stringify(eventsForStorage(events.map(event=>({...event,logDescription:'다른 설명'})))),JSON.stringify(old));
 });
 test('기록 설명은 문자열만 허용',()=>{
  assert.throws(()=>validateEvents([{...events[0],logDescription:123}],collectibles));
+});
+
+test('내부 태그만 추가·수정·삭제해도 저장 키와 기존 진행 유지',()=>{
+ const plain=[{id:'opening',title:'오프닝',weight:100}];
+ const tagged=[{...plain[0],tags:['오프닝','음악']}];
+ assert.deepEqual(eventsForStorage(tagged),eventsForStorage(plain));
+ assert.deepEqual(eventsForStorage([{...plain[0],tags:[]}]),eventsForStorage(plain));
 });
