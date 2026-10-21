@@ -60,6 +60,10 @@ function render() {
     message.replaceChildren(node('h2', '다음 방송 시간을 기다립니다.'), node('p', '지금은 방송 시간이 아닙니다.\n다음 수신 때 다시 확인합니다.'));
     $('timer-note').textContent = '방송 시간이 되면 다음 수신 때 이야기가 도착합니다.';
   }
+  if (s.phase === 'waiting' && s.waitingForRepeat) {
+    message.replaceChildren(node('h2', '다른 방송을 기다립니다.'), node('p', '같은 방송을 연속으로 듣지 않도록 다른 방송을 기다립니다.'));
+    $('timer-note').textContent = '다른 방송이 가능해지면 수신을 재개합니다.';
+  }
   const choices = $('choices'); choices.replaceChildren();
   if (s.phase === 'choice') engine.event.choices.forEach((choice, index) => {
     const button = node('button', '', 'choice');
